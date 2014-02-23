@@ -1,0 +1,28 @@
+<style>
+#a
+{
+	color:white;
+	font-size:10px;
+}
+</style>
+<table border="1"  bgcolor="#666666" id="a">
+<tr>
+	<td>Organization ID</td><td >{{ details.ID }}</td>
+</tr>
+<tr>
+	<td>Organization Name</td><td class="a">{{ details.Name }}</td>
+</tr>
+<tr>
+	<td>Address</td><td class="a">{{ details.Address }}</td>
+</tr>
+<tr>
+	<td>Contact No</td><td class="a">{{ details.Contact_No }}</td>
+</tr>
+<tr>
+	<td>Mission</td><td class="a">{{ details.Mission }}</td>
+</tr>
+<tr>
+	<td>Website URL</td><td class="a">{{ details.Web_Url }}</td>
+</tr>
+</table>	
+<a href="#" onClick="parent.emailwindow.hide()"> close</a>

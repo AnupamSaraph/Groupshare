@@ -1,0 +1,29 @@
+<style>
+#abc{
+	font-size:9px;
+	color:white;	
+}
+</style>
+<table border="1" bgcolor="#666666" id="abc">
+<tr>
+	<td>SSNNO</td><td>Name</td><td>Email ID</td><td>Fax No</td><td>Office Phone</td><td>Home Phone</td><td>Designation</td><td>Address</td><td>From</td><td>To</td><td>Modified By</td>
+</tr>
+{% for person in history %}
+<tr>
+<td class="a">{{ person.SSNNO }}</td>
+<td class="a">{{ person.Name }}</td>
+<td class="b">{{ person.Email_ID }}</td>
+<td class="a">{{ person.Fax_No }}</td>
+<td class="b">{{ person.Office_Phone_No }}</td>
+<td class="b">{{ person.Home_Phone_No }}</td>
+<td class="a">{{ person.Designation }}</td>
+<td class="b">{{ person.Address_Line }}</td>
+<td class="b">{{ person.From }}</td>
+<td class="b">{{ person.To }}</td>
+<td class="b">{{ person.Added_By }}</td>
+</tr>
+{% endfor %}
+
+</table>
+<a href="#" onClick="parent.emailwindow.hide()"> close</a>
+

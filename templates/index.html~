@@ -1,0 +1,153 @@
+{% load staticfiles %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Main page</title>
+<script src="/static/js/javascript.js" type="text/javascript"></script>
+
+
+	<script type="text/javascript">   
+		  $(document).ready(function(){	   
+		   $("#home").click(function(){
+		   	$('#content_main').load('./detailall.html');
+		     //alert("Thanks for visiting!");
+		   }); 
+ 
+		//   $("#page2").click(function(){
+		  // 	$('#result').load('pages/page2.html');
+		     //alert("Thanks for visiting!");
+		  // });
+		 });
+	</script>
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="/static/css/style.css"/>
+
+
+<title>Open | information</title>
+</head>
+
+<body>
+<div id="container">
+		<div id="header">
+		
+        		<h1>Open<span class="off">Information</span></h1>
+            		<h2>Developed by SICSR Student</h2>
+		
+        	</div>   
+        
+        	<div id="menu" type="text/javascript">
+		
+        		<ul>
+            			<li class="menuitem"><a href="#" id="home">Home</a></li>
+                		<li class="menuitem"><a href="#">About</a></li>
+                		<li class="menuitem"><a href="#">Products</a></li>
+                		<li class="menuitem"><a href="#">Services</a></li>
+                		<li class="menuitem"><a href="#">Design</a></li>
+              			<li class="menuitem"><a href="#">Contact</a></li>
+            		</ul>
+		
+        	</div>
+        
+        	<div id="leftmenu">
+			
+        		<div id="leftmenu_top"></div>
+
+			<div id="leftmenu_main">   
+                
+                		<h3>Links</h3>
+                        
+                		<ul>
+                    			<li><a href="#">SEO</a></li>
+                    			<li><a href="#">PHP</a></li>
+                 		 	<li><a href="#">Ajax</a></li>
+                    			<li><a href="#">jQuery</a></li>
+                   			<li><a href="#">Web design</a></li>
+                    			<li><a href="#">Web Programming</a></li>
+                  			<li><a href="#">Content Creation</a></li>
+                    			<li><a href="#">Internet Marketing</a></li>
+                    			<li><a href="#">XHTML Templates</a></li>
+                		</ul>
+			
+			</div>
+                
+                
+              		<div id="leftmenu_bottom"></div>
+		        	
+		</div>
+        
+        
+        
+        
+		<div id="content">
+        
+			
+        		<div id="content_top"></div>
+        		<div id="content_main">
+
+
+ <script type="text/javascript">
+var i = 0;
+var image = new Array();  
+// LIST OF IMAGES
+image[0] = "/static/images/img/audi.jpg";
+image[1] = "/static/images/img/bmw.jpg";
+image[2] = "/static/images/img/audiform.jpg";  
+var k = image.length-1;   
+var caption = new Array();
+// LIST OF CAPTİONS
+caption[0] = "Audi headquater";
+caption[1] = "Bmw hwadquater";
+caption[2] = "Form";
+function swapImage(){
+var el = document.getElementById("mydiv");
+el.innerHTML=caption[i];
+var img= document.getElementById("slide");
+img.src= image[i];
+if(i < k ) { i++;} 
+else  { i = 0; }
+setTimeout("swapImage()",5000);
+}
+function addLoadEvent(func) {
+var oldonload = window.onload;
+if (typeof window.onload != 'function') {
+window.onload = func;
+} else  {
+window.onload = function() {
+if (oldonload) {
+oldonload();
+}
+func();
+}
+}
+}
+addLoadEvent(function() {
+swapImage();
+}); 
+</script>
+<table style="border:3px solid #00aaff;background-color:#00aaaa;">
+<tr>
+<td>
+<img name="slide" id="slide" alt ="my images" height="285" width="485" src="image_1.gif"/>
+</td>
+</tr>
+<tr>
+<td align="center"style="font:small-caps bold 15px georgia; color:blue;">
+<div id ="mydiv"></div>
+</tr>
+</td>
+</table>
+
+
+
+
+
+			</div>
+        		<div id="content_bottom"></div>
+         
+            		<div id="footer"><h2><a href="#"> Google Help</a></h2></div>
+      		</div>
+</div>	
+</body>
+</html>

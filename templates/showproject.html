@@ -1,0 +1,30 @@
+<script>
+function opendesign(no){
+
+	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'empinfo/'+no  , 'Employee Detail', 'width=550px,height=450px,center=1,resize=0,scrolling=1')
+
+} 
+</script>
+
+
+<table border="1" text-color="#ffffff" bgcolor="#666666">
+<tr>
+	<td>Project ID</td><td> Project Name</td><td>Start Date</td><td>End Date</td><td>Amount Proposed</td><td>Amount Sanctioned</td><td>Last Year Exp</td><td>No OF Installment</td><td>Officer's In charge id</td>
+</tr>
+{% for person in project %}
+<tr>
+<td class="a">{{ person.Project_ID }}</td>
+<td class="a">{{ person.Project_Name }}</td>
+<td class="b">{{ person.Start_Date }}</td>
+<td class="a">{{ person.End_Date }}</td>
+<td class="b">{{ person.Amt_Proposed }}</td>
+<td class="b">{{ person.Amt_Sanctioned }}</td>
+<td class="a">{{ person.Expenditure_Last_Year }}</td>
+<td class="b">{{ person.No_of_Installment }}</td>
+<td class="b"><a href="#" onClick="opendesign({{ person.Emp_SSNNO }}); return false">{{ person.Emp_SSNNO }}</a></td>
+
+</tr>
+{% endfor %}
+
+</table>	
+

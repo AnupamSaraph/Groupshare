@@ -1,0 +1,86 @@
+<script>
+    function showhide(id){
+        if (document.getElementById){
+            obj = document.getElementById(id);
+            if (obj.style.display == "none"){
+                obj.style.display = "table";
+            } else {
+                obj.style.display = "none";
+	            }
+        }
+    }
+function openleture(no){
+
+	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'emp/'+no  , 'Employee history', 'width=550px,height=450px,center=1,resize=0,scrolling=1')
+
+} 
+
+function openemail(no){
+	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'phonehis/'+no  , 'phone history', 'width=550px,height=450px,center=1,resize=0,scrolling=1')
+
+} 
+
+function opendesign(str1){
+	var str=str1;
+	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'designationhis/'+str  , 'designation history', 'width=550px,height=450px,center=1,resize=0,scrolling=1')
+
+} 
+
+function opendept(no){
+	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'deptinfo/'+no  , 'phone history', 'width=550px,height=450px,center=1,resize=0,scrolling=1')
+
+} 
+
+	
+</script>
+
+
+<table border="1" text-color="#ffffff" bgcolor="#666666">
+<tr>
+	<td>SSNNO</td><td>Name</td><td>Email ID</td><td>Fax No</td><td>Office Phone</td><td>Home Phone</td><td>Designation</td><td>Address</td><td>Date Added</td><td>Added By</td><td>Dept ID</td><td>History</td><td>Modify</td>
+</tr>
+{% for person in details %}
+<tr>
+<td class="a">{{ person.SSNNO }}</td>
+<td class="a">{{ person.Name }}</td>
+<td class="b">{{ person.Email_ID }}</td>
+<td class="a">{{ person.Fax_No }}</td>
+<td class="b"><a href="#" onClick="openemail({{person.Office_Phone_No }}); return false">{{ person.Office_Phone_No }}</a></td>
+<td class="b">{{ person.Home_Phone_No }}</td>
+<td class="c"><a href="#" onClick="opendesign('{{person.Designation }}'); return false">{{ person.Designation }}</a></td>
+<td class="b">{{ person.Address_Line }}</td>
+<td class="b">{{ person.Date_Added }}</td>
+<td class="b">{{ person.Added_By }}</td>
+<td class="b"><a href="#" onClick="opendept({{person.Dep_ID}}); return false">{{ person.Dep_ID }}</a></td>
+<td class="a"><a href="#" onClick="openleture({{ person.SSNNO }}); return false">Show/Hide</a></td>
+<td class="b"><a href="edit/{{person.SSNNO}}">Edit</a></td>
+</tr>
+{% endfor %}
+
+</table>	
+
+
+<table border="1" text-color="#ffffff" bgcolor="#666666" width=100% id="abc" style="display:none">
+<tr>
+	<td>SSNNO</td><td>Name</td><td>Email ID</td><td>Fax No</td><td>Office Phone</td><td>Home Phone</td><td>Designation</td><td>Address</td><td>From</td><td>To</td><td>Modified By</td>
+</tr>
+{% for person in history %}
+<tr>
+<td class="a">{{ person.SSNNO }}</td>
+<td class="a">{{ person.Name }}</td>
+<td class="b">{{ person.Email_ID }}</td>
+<td class="a">{{ person.Fax_No }}</td>
+<td class="b">{{ person.Office_Phone_No }}</td>
+<td class="b">{{ person.Home_Phone_No }}</td>
+<td class="a">{{ person.Designation }}</td>
+<td class="b">{{ person.Address_Line }}</td>
+<td class="b">{{ person.From }}</td>
+<td class="b">{{ person.To }}</td>
+<td class="b">{{ person.Added_By }}</td>
+</tr>
+{% endfor %}
+
+</table>
+
+
+

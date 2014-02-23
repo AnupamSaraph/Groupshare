@@ -1,0 +1,45 @@
+<head><script>
+    function showhide(id){
+        if (document.getElementById){
+            obj = document.getElementById(id);
+            if (obj.style.display == "none"){
+                obj.style.display = "";
+            } else {
+                obj.style.display = "none";
+            }
+        }
+    }
+</script></head>
+
+<table border="1" text-color="#ffffff" bgcolor="#666666" width=100%>
+<tr>
+	<td>SSNNO</td><td>Name</td><td>Email ID</td><td>Fax No</td><td>Office Phone</td><td>Home Phone</td><td>Designation</td><td>Address</td>
+</tr>
+{% for person in employee %}
+<tr>
+<td class="a"><a href='#' title='Modified By={{ person.Added_By}},From={{person.From}},To={{person.To }}'>{{ person.SSNNO }}</a></td>
+<td class="a">{{ person.Name }}</td>
+<td class="b">{{ person.Email_ID }}</td>
+<td class="a">{{ person.Fax_No }}</td>
+<td class="b">{{ person.Office_Phone_No }}</td>
+<td class="b">{{ person.Home_Phone_No }}</td>
+<td class="a">{{ person.Designation }}</td>
+<td class="b">{{ person.Address_Line }}</td>
+<!--<td class="b"><a href="#" onclick="javascript:showhide('abc');">Show/Hide</a></td>-->
+</tr>
+{% endfor %}
+
+</table>
+
+<table border="1" text-color="#ffffff" bgcolor="#666666" width=100% id="abc" style="display:none">
+<tr>
+<td>From</td><td>To</td><td>Modified_By</td>
+</tr>
+{% for person in employee %}
+<tr>
+<td class="b">{{ person.From }}</td>
+<td class="b">{{ person.To }}</td>
+<td class="b">{{ person.Added_By }}</td>
+</tr>
+{% endfor %}
+</table>

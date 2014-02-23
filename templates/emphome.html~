@@ -1,0 +1,19 @@
+<h4>
+<p>The employee information is listed as below</p>
+<ui>
+<li><a href='/add'>Add Employee</a></li>
+<li><a href= '/search'>Edit Employee</a></li>
+<li>Show History</li>
+	<ui>
+		<li><a href= '/edithistory'>Show all history</a></li>
+		<li><a href="/filterhistory">Show indidivual history</a></li>
+	</ui>
+</li>
+<li>Display</li>
+	<ui>
+		<li><a href= "/display">Show all Employee record</a></li>
+		<li><a href="/find">Show indidivual employee record</a></li>
+	</ui>
+
+</li>
+</h4>

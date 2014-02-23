@@ -1,0 +1,14 @@
+
+<table border="1">
+<tr>
+	<td>Name</td><td>Slug</td><td>Brewery</td><td>Locality</td>
+</tr>
+{% for person in details %}
+<tr>
+<td class="a">{{ person.name }}</td>
+<td class="b">{{ person.slug }}</td>
+<td class="a">{{ person.brewery }}</td>
+<td class="b">{{ person.locality }}</td>
+
+</tr>
+{% endfor %}

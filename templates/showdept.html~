@@ -1,0 +1,22 @@
+<style>
+#a
+{
+	color:white;
+	font-size:10px;
+}
+</style>
+<table border="1"  bgcolor="#666666" id="a">
+<tr>
+	<td>Department ID</td><td >{{ details.ID }}</td>
+</tr>
+<tr>
+	<td>Department Name</td><td class="a">{{ details.Name }}</td>
+</tr>
+<tr>
+	<td>Address</td><td class="a">{{ details.Address }}</td>
+</tr>
+<tr>
+	<td>Contact No</td><td class="a">{{ details.Contact_No }}</td>
+</tr>
+</table>	
+<a href="#" onClick="parent.emailwindow.hide()"> close</a>

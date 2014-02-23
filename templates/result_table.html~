@@ -1,0 +1,27 @@
+<table border="1" bgcolor='#66666'>
+<tr>
+	<td>SSNNO</td><td>Name</td><td>Email ID</td><td>Fax No</td><td>Office Phone No</td><td>Designation</td><td>Address</td>
+</tr>
+{% for person in employee %}
+<tr>
+<td class="a"><a href="edit/{{person.SSNNO}}">{{ person.SSNNO }} </a></td>
+<td class="a">{{ person.Name }}</td>
+
+
+<td class="b">{{ person.Email_ID }}</td>
+
+
+<td class="a">{{ person.Fax_No }}</td>
+
+
+<td class="b">{{ person.Office_Phone_No }}</td>
+
+
+<td class="a">{{ person.Designation }}</td>
+
+<td class="b">{{ person.Address_Line }}</td>
+
+</tr>
+{% endfor %}
+
+</table>
