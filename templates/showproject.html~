@@ -4,12 +4,22 @@ function opendesign(no){
 	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'empinfo/'+no  , 'Employee Detail', 'width=550px,height=450px,center=1,resize=0,scrolling=1')
 
 } 
+function openprojecthis(no){
+
+	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'project_history/'+no  , 'Project History Detail', 'width=550px,height=450px,center=1,resize=0,scrolling=1')
+
+} 
 </script>
-
-
-<table border="1" text-color="#ffffff" bgcolor="#666666">
+<style>
+	#abc
+	{
+		font-size:10px;
+		color:white;
+	}
+</style>
+<table border="1" text-color="#ffffff" bgcolor="#666666" id="abc">
 <tr>
-	<td>Project ID</td><td> Project Name</td><td>Start Date</td><td>End Date</td><td>Amount Proposed</td><td>Amount Sanctioned</td><td>Last Year Exp</td><td>No OF Installment</td><td>Officer's In charge id</td>
+	<td>Project ID</td><td> Project Name</td><td>Start Date</td><td>End Date</td><td>Amount Proposed</td><td>Amount Sanctioned</td><td>Last Year Exp</td><td>No OF Installment</td><td>Officer's In charge id</td><td>Modify</td><td>History</td>
 </tr>
 {% for person in project %}
 <tr>
@@ -22,9 +32,10 @@ function opendesign(no){
 <td class="a">{{ person.Expenditure_Last_Year }}</td>
 <td class="b">{{ person.No_of_Installment }}</td>
 <td class="b"><a href="#" onClick="opendesign({{ person.Emp_SSNNO }}); return false">{{ person.Emp_SSNNO }}</a></td>
-
+<td class="b"><a href="edit_project/{{ person.Project_ID }}">Edit</a></td>
+<td class="b"><a href="#" onClick="openprojecthis({{ person.Project_ID }}); return false">Show</a></td>
 </tr>
 {% endfor %}
 
 </table>	
-
+<a href="#" onClick="parent.emailwindow.hide()"> close</a>

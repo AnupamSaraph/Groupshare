@@ -7,16 +7,29 @@ function opendesign(no){
 
 function openorgemp(no){
 
-	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'org_employee/'+no  , 'Department Detail', 'width=550px,height=450px,center=1,resize=0,scrolling=1')
+	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'org_employee/'+no  , 'Employee Detail', 'width=550px,height=450px,center=1,resize=0,scrolling=1')
+
+}
+
+function openorgproject(no){
+
+	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'org_project/'+no  , 'Project Detail', 'width=550px,height=450px,center=1,resize=0,scrolling=1')
 
 } 
+
+function openorghis(no){
+
+	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'org_history/'+no  , 'Organization History', 'width=550px,height=450px,center=1,resize=0,scrolling=1')
+
+} 
+ 
 
 </script>
 
 
 <table border="1" text-color="#ffffff" bgcolor="#666666">
 <tr>
-	<td>Organization ID</td><td> Organization Name</td><td>Address</td><td>Contact No</td><td>Mission</td><td>Website URL</td><td>Show Department</td><td>Show Employee</td><td>Modify Record</td>
+	<td>Organization ID</td><td> Organization Name</td><td>Address</td><td>Contact No</td><td>Mission</td><td>Website URL</td><td>Show Department</td><td>Show Employee</td><td>Show Project</td><td>Modify Record</td><td>History</td>
 </tr>
 {% for person in details %}
 <tr>
@@ -28,7 +41,9 @@ function openorgemp(no){
 <td class="b">{{ person.Web_Url }}</td>
 <td class="b"><a href="#" onClick="opendesign({{ person.ID }}); return false">Show</a></td>
 <td class="b"><a href="#" onClick="openorgemp({{ person.ID }}); return false">Show</a></td>
+<td class="b"><a href="#" onClick="openorgproject({{ person.ID }}); return false">Show</a></td>
 <td class="b"><a href="editOrg/{{ person.ID }}"> Edit</a></td>
+<td class="b"><a href="#" onClick="openorghis({{ person.ID }}); return false">Show</a></td>
 </tr>
 {% endfor %}
 

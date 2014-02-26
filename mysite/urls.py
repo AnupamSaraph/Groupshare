@@ -45,7 +45,12 @@ urlpatterns = patterns('',
 	url(r'deptinfo/(\d+)$',deptinfo),
 	url(r'org_employee/(\d+)$',org_employee),
 	url(r'dept_employee/(\d+)$',dept_employee),
-
+	url(r'org_project/(\d+)$',org_project),
+	url(r'edit_project/(\d+)$',edit_project),
+	url(r'project_history/(\d+)$',project_history),
+	url(r'dept_history/(\d+)$',dept_history),
+	url(r'org_history/(\d+)$',org_history),
+	
     # Examples:
     #url(r'^$', 'mysite.views.home', name='home'),
     # url(r'^mysite/', include('mysite.foo.urls')),

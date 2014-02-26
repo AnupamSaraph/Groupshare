@@ -1,0 +1,28 @@
+<style>
+#abc
+{
+	color:white;
+	font-size:10px;
+}
+</style>
+<table border="1" text-color="#ffffff" bgcolor="#666666" id="abc">
+<tr>
+	<td>Organization ID</td><td>Organization Name</td><td>Address</td><td>Contact No</td><td>Mission</td><td>Web URL</td><td>Modified By</td><td>Modified On</td>
+	
+</tr>
+{% for person in details %}
+<tr>
+<td class="a">{{ person.Org_ID }}</td>
+<td class="a">{{ person.Name }}</td>
+<td class="b">{{ person.Address }}</td>
+<td class="a">{{ person.Contact_No }}</td>
+<td class="a">{{ person.Mission }}</td>
+<td class="a">{{ person.Web_Url }}</td>
+<td class="a">{{ person.Modified_By }}</td>
+<td class="a">{{ person.Modified_On }}</td>
+</tr>
+{% endfor %}
+
+</table>	
+
+<a href="#" onClick="parent.emailwindow.hide()"> close</a>

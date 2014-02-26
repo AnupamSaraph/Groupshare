@@ -1,0 +1,29 @@
+<style>
+	#abc
+	{
+		font-size:10px;
+		color:white;
+	}
+</style>
+<table border="1" text-color="#ffffff" bgcolor="#666666" id="abc">
+<tr>
+	<td>Project ID</td><td> Project Name</td><td>Start Date</td><td>End Date</td><td>Amount Proposed</td><td>Amount Sanctioned</td><td>Last Year Exp</td><td>No OF Installment</td><td>Modified BY</td><td>Modified On</td>
+</tr>
+{% for person in project %}
+<tr>
+<td class="a">{{ person.Project_ID }}</td>
+<td class="a">{{ person.Project_Name }}</td>
+<td class="b">{{ person.Start_Date }}</td>
+<td class="a">{{ person.End_Date }}</td>
+<td class="b">{{ person.Amt_Proposed }}</td>
+<td class="b">{{ person.Amt_Sanctioned }}</td>
+<td class="a">{{ person.Expenditure_Last_Year }}</td>
+<td class="b">{{ person.No_of_Installment }}</td>
+<td class="b">{{ person.Modified_By }}</td>
+<td class="b">{{ person.Modified_On }}</td>
+
+</tr>
+{% endfor %}
+
+</table>	
+<a href="#" onClick="parent.emailwindow.hide()"> close</a>

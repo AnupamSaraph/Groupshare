@@ -6,7 +6,7 @@ from django.http import HttpResponseRedirect
 from django.http import HttpResponse
 from django import forms
 from django.utils.translation import ugettext_lazy as _
-from employeeall.models import Employeeall, EmployeeForm,EditEmployeeForm,Employeehistory,Project,ProjectFormAll,OrganizationForm,DepartmentForm,Organization,Department
+from employeeall.models import Employeeall,Projecthistory,Organizationhistory,Departmenthistory, EmployeeForm,EditEmployeeForm,Employeehistory,Project,ProjectFormAll,OrganizationForm,DepartmentForm,Organization,Department,ProjectForm
 from django.template import RequestContext,Context
 from django.template.loader import get_template
 from django.contrib.auth.models import User
@@ -95,7 +95,10 @@ def displayOrg(request):
 # edit organization begins here
 def editOrg(request, ssn):
 			 form=None;
-    			 if request.user.is_authenticated():	
+    			 if request.user.is_authenticated():
+				user = request.user.username
+				now=datetime.datetime.now();
+				old=Organization.objects.get(ID__iexact=ssn);	
 				if request.method=="POST":
 					
 					form=OrganizationForm(request.POST);
@@ -110,6 +113,8 @@ def editOrg(request, ssn):
 						j.Mission=cleandata['Mission'];
 						j.Web_Url=cleandata['Web_Url'];
 						j.save();
+						obj=Organizationhistory(Org_ID=old.ID,Name=old.Name,Address=old.Address,Contact_No=old.Contact_No,Mission=old.Mission,Web_Url=old.Web_Url,Modified_By=user,Modified_On="");
+						obj.save();	
 						return render(request,'home1.html',{'content_title':'Updated Successfully'})
 				else:
 					try:	
@@ -124,6 +129,15 @@ def editOrg(request, ssn):
 
 
 #edit organization ends here
+
+#Organization history begins here
+def org_history(request,ssn):
+	if request.user.is_authenticated():
+		query=Organizationhistory.objects.filter(Org_ID__iexact=ssn);
+		return render(request,"organhistory.html", {'details':query})
+
+#Organization history ends here
+
 
 #Add Department form begins here
 def addDepartment(request):
@@ -175,7 +189,10 @@ def displayDept(request):
 # edit department begins here
 def editDept(request, ssn):
 			 form=None;
-    			 if request.user.is_authenticated():	
+    			 if request.user.is_authenticated():
+				user = request.user.username
+				now=datetime.datetime.now();
+				old=Department.objects.get(ID__iexact=ssn);			
 				if request.method=="POST":
 					
 					form=DepartmentForm(request.POST);
@@ -189,6 +206,8 @@ def editDept(request, ssn):
 						j.Contact_No=cleandata['Contact_No'];
 						j.Organization_ID=cleandata['Organization_ID'];
 						j.save();
+						obj=Departmenthistory(Dept_ID=old.ID,Name=old.Name,Address=old.Address,Contact_No=old.Contact_No,Modified_By=user,Modified_On="");
+						obj.save();
 						return render(request,'home1.html',{'content_title':'Updated Successfully'})
 				else:
 					try:	
@@ -202,7 +221,17 @@ def editDept(request, ssn):
 
 
 
-#edit organization ends here
+#edit department ends here
+
+
+#Department history begins here
+def dept_history(request,ssn):
+	if request.user.is_authenticated():
+		query=Departmenthistory.objects.filter(Dept_ID__iexact=ssn);
+		return render(request,"depthistory.html", {'details':query})
+
+#Department history ends here
+
 
 #Employee belonging to an Department begins here
 def dept_employee(request,ssn):
@@ -263,6 +292,29 @@ def org_employee(request,ssn):
 
 #Employee belonging to an organization ends here
 
+#Project belonging to an organization begins here
+def org_project(request,ssn):
+	li=[];
+	l=[];	
+	if request.user.is_authenticated():
+		query=Organization.objects.get(ID__iexact=ssn);
+		q = query.department_set.all();
+		for obj in q: 
+		
+			li.append(obj.ID);
+		qset = Employeeall.objects.filter(Dep_ID_id__in=li);
+		for obj1 in qset:
+			l.append(obj1.SSNNO);
+		qset1=Project.objects.filter(Emp_SSNNO_id__in=l);			
+		return render(request,"showproject.html", {'project':qset1 })
+	else:
+		return HttpResponseRedirect('/accounts/login/');
+
+
+
+#Project belonging to an organization ends here
+
+
 def display(request):
 			content=None;	
 			if request.user.is_authenticated():		
@@ -294,7 +346,7 @@ def search(request):
 			return HttpResponseRedirect('/accounts/login/');
 
 
-
+#Edit employee records begins here
 def edit(request, ssn):
 			 form=None
 			 username = None
@@ -339,7 +391,7 @@ Comment=old.Comment);
 						ins=None;
 					
 				return render(request,'home1.html',{'content_title':'Edit Employee','form':form,'action_url':'edit/%s'%(ssn),'emp':True})
-
+#Edit employee records ends here
 
 
 def edithistory(request):
@@ -471,6 +523,46 @@ def addproject(request):
 			return HttpResponseRedirect('/accounts/login/');
 
 
+#Edit project records begins here
+def edit_project(request, ssn):
+			 form=None
+			 username = None
+    			 if request.user.is_authenticated():
+        			user = request.user.username
+				now=datetime.datetime.now();
+				old=Project.objects.get(Project_ID__iexact=ssn);		
+				if request.method=="POST":
+					
+					form=ProjectForm(request.POST);
+					if form.is_valid():
+						cleandata=form.cleaned_data;
+						j = Project.objects.get(Project_ID=ssn);
+						
+						j.Project_Name=cleandata['Project_Name'];
+						j.Start_Date=cleandata['Start_Date'];
+						j.End_Date=cleandata['End_Date'];
+						j.Amt_Sanctioned=cleandata['Amt_Sanctioned'];
+						j.Amt_Proposed=cleandata['Amt_Proposed'];
+						j.Expenditure_Last_Year=cleandata['Expenditure_Last_Year'];
+						j.No_of_Installment=cleandata['No_of_Installment'];
+						j.Emp_SSNNO=cleandata['Emp_SSNNO'];
+						j.save();
+						obj=Projecthistory(Project_ID=old.Project_ID,Project_Name=old.Project_Name,Start_Date=old.Start_Date,End_Date=old.End_Date,Amt_Sanctioned=old.Amt_Sanctioned,
+Amt_Proposed=old.Amt_Proposed,Expenditure_Last_Year=old.Expenditure_Last_Year,No_of_Installment=old.No_of_Installment,
+Modified_By=user,Modified_On="");
+						
+						obj.save();
+						return render(request,'home1.html',{'content_title':'Project Saved'})
+				else:
+					try:	
+						ins=Project.objects.get(Project_ID__exact=ssn)
+						form=ProjectForm(instance=ins);	
+					except Project.DoesNotExist:
+						ins=None;
+					
+				return render(request,'home1.html',{'content_title':'Edit Project','form':form,'action_url':'edit_project/%s'%(ssn)})
+#Edit project records ends here
+
 
 
 def showproject(request):
@@ -482,6 +574,14 @@ def showproject(request):
 				return render(request,"home1.html", {'history':content,'content_title':'All Project'})
 			else:
 				return HttpResponseRedirect('/accounts/login/');
+
+#Project history begins here
+def project_history(request,ssn):
+	if request.user.is_authenticated():
+		query=Projecthistory.objects.filter(Project_ID__iexact=ssn);
+		return render(request,"projecthistory.html", {'project':query})
+
+#Project history ends here
 
 
 def empproject(request,ssn):

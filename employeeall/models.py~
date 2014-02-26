@@ -23,6 +23,20 @@ class OrganizationForm(ModelForm):
 	fields=['Name','Address','Contact_No','Mission','Web_Url']
 
 
+class Organizationhistory(models.Model):
+	Org_ID=models.IntegerField(max_length=6);
+	Name=models.CharField(max_length=100);
+	Address=models.TextField(blank=False);
+	Contact_No=models.CharField(max_length=15);
+	Mission=models.TextField(blank=False);
+	Web_Url=models.URLField(max_length=200);
+	Modified_By=models.CharField(max_length=100);
+	Modified_On=models.DateField(auto_now=True,editable=True,blank=True);
+
+	def __unicode__(self):
+		return  '%d' % ( self.ID )
+
+
 class Department(models.Model):
 	ID=models.AutoField(primary_key=True);
 	Name=models.CharField(max_length=100);
@@ -36,6 +50,17 @@ class DepartmentForm(ModelForm):
  class Meta:
 	model=Department
 	fields=['Name','Address','Contact_No','Organization_ID']
+
+
+class Departmenthistory(models.Model):
+	Dept_ID=models.IntegerField(max_length=6);
+	Name=models.CharField(max_length=100);
+	Address=models.TextField(blank=False);
+	Contact_No=models.CharField(max_length=15);
+	Modified_By=models.CharField(max_length=100);
+	Modified_On=models.DateField(auto_now=True,editable=True,blank=True);
+	def __unicode__(self):
+		return  '%d' % ( self.ID )
 
 
 
@@ -106,7 +131,7 @@ class Project(models.Model):
 class ProjectForm(ModelForm):
 	class Meta:
 		model=Project
-		fields=['Project_ID','Project_Name','Start_Date','End_Date','Amt_Proposed','Amt_Sanctioned','Expenditure_Last_Year','No_of_Installment','Emp_SSNNO']
+		fields=['Project_Name','Start_Date','End_Date','Amt_Proposed','Amt_Sanctioned','Expenditure_Last_Year','No_of_Installment','Emp_SSNNO']
 
 
 class ProjectFormAll(ModelForm):
@@ -115,4 +140,17 @@ class ProjectFormAll(ModelForm):
 		fields=['Project_ID','Project_Name','Start_Date','End_Date','Amt_Proposed','Amt_Sanctioned','Expenditure_Last_Year','No_of_Installment','Emp_SSNNO']
 
 
+class Projecthistory(models.Model):
+	Project_ID=models.IntegerField(max_length=6);
+	Project_Name=models.CharField(max_length=100);
+	Start_Date=models.DateField(editable=True);
+	End_Date=models.DateField(editable=True);
+	Amt_Proposed=models.DecimalField(max_digits=13, decimal_places=3);
+	Amt_Sanctioned=models.DecimalField(max_digits=13, decimal_places=3);
+	Expenditure_Last_Year=models.DecimalField(max_digits=13, decimal_places=3);
+	No_of_Installment=models.IntegerField(max_length=6);
+	Modified_By=models.CharField(max_length=100);
+	Modified_On=models.DateField(auto_now=True,editable=True,blank=True);
+	def __unicode__(self):	
+		return '%d' %(self.Project_ID)
 
