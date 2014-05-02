@@ -31,13 +31,18 @@ function opendept(no){
 
 } 
 
+function open_order(str1){
+	var str=str1;
+	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'fileupload/'+str  , 'Order', 'width=550px,height=450px,center=1,resize=0,scrolling=1')
+
+} 
 	
 </script>
 
 
 <table border="1" text-color="#ffffff" bgcolor="#666666">
 <tr>
-	<td>SSNNO</td><td>Name</td><td>Email ID</td><td>Fax No</td><td>Office Phone</td><td>Home Phone</td><td>Designation</td><td>Address</td><td>Date Added</td><td>Added By</td><td>Dept ID</td><td>History</td><td>Modify</td>
+	<td>SSNNO</td><td>Name</td><td>Email ID</td><td>Fax No</td><td>Office Phone</td><td>Home Phone</td><td>Designation</td><td>Address</td><td>Date Added</td><td>Added By</td><td>Dept ID</td><td>History</td><td>Modify</td><td>Order</td>
 </tr>
 {% for person in details %}
 <tr>
@@ -54,6 +59,8 @@ function opendept(no){
 <td class="b"><a href="#" onClick="opendept({{person.Dep_ID}}); return false">{{ person.Dep_ID }}</a></td>
 <td class="a"><a href="#" onClick="openleture({{ person.SSNNO }}); return false">Show/Hide</a></td>
 <td class="b"><a href="edit/{{person.SSNNO}}">Edit</a></td>
+<!--<td class="b">{{ person.Order }}</td>-->
+<td class="a"><a href= '#' onClick= "open_order('{{person.Order}}'); return false">{{ person.Order }}</a></td>
 </tr>
 {% endfor %}
 

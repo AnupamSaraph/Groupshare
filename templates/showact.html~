@@ -1,0 +1,25 @@
+<style>
+#abc
+	{
+		font-size:10px;
+		color:white;
+	}
+</style>
+
+<table border="1" text-color="#ffffff" bgcolor="#666666" id="abc" width=100%>
+<tr>
+	<td>Description</td><td>Information</td>
+</tr>
+
+<tr>
+<td>Act No</td><td class="a">{{ details.No }}</td>
+</tr><tr>
+<td>Act Name</td><td class="a">{{ details.Name }}</td>
+</tr><tr>
+<td>Act Year</td><td class="b">{{ details.Year }}</td>
+</tr><tr>
+<td>Act Link</td><td class="a">{{ details.Link }}</td>
+</tr>
+</table>
+<br/>
+<a href="#" onClick="parent.emailwindow.hide()"> close</a>

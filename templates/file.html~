@@ -1,0 +1,7 @@
+
+{% if content %}
+{{ content }}
+{% else %}
+No record found
+{% endif %}
+<a href="#" onClick="parent.emailwindow.hide()"> close</a>

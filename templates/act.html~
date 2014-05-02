@@ -1,0 +1,45 @@
+<script>
+function openchapter(no){
+
+	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'act_chapter/'+no  , 'Chapter Detail', 'width=550px,height=450px,center=1,resize=0,scrolling=1')
+
+} 
+function opensection(no){
+
+	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'act_section/'+no  , 'Section Detail', 'width=550px,height=450px,center=1,resize=0,scrolling=1')
+
+} 
+function openhistory(no){
+
+	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'act_history/'+no  , 'History Detail', 'width=550px,height=450px,center=1,resize=0,scrolling=1')
+
+} 
+
+</script>
+<style>
+#abc
+	{
+		font-size:10px;
+		color:white;
+	}
+</style>
+
+<table border="1" text-color="#ffffff" bgcolor="#666666" id="abc" width=100%>
+<tr>
+	<td>Act No</td><td>Act Name</td><td>Year</td><td>Link</td><td>Show Chapter</td><td>Show Section</td><td>History</td><td>Edit</td>
+</tr>
+{% for person in details %}
+<tr>
+<td class="a">{{ person.No }}</td>
+<td class="a">{{ person.Name }}</td>
+<td class="b">{{ person.Year }}</td>
+<td class="a">{{ person.Link }}</td>
+<td class="b"><a href="#" onClick="openchapter({{ person.No }}); return false">Show</a></td>
+<td class="b"><a href="#" onClick="opensection({{ person.No }}); return false">Show</a></td>
+<td class="b"><a href="#" onClick="openhistory({{ person.No }}); return false">Show</a></td>
+<td><a href='/editAct/{{ person.No}}'>Edit</a></td>
+</tr>
+{% endfor %}
+
+</table>	
+

@@ -6,7 +6,8 @@ from django.http import HttpResponseRedirect
 from django.http import HttpResponse
 from django import forms
 from django.utils.translation import ugettext_lazy as _
-from employeeall.models import Employeeall,Projecthistory,Organizationhistory,Departmenthistory, EmployeeForm,EditEmployeeForm,Employeehistory,Project,ProjectFormAll,OrganizationForm,DepartmentForm,Organization,Department,ProjectForm
+from employeeall.models import * #Employeeall,Projecthistory,Organizationhistory,Departmenthistory,Comment,CommentForm,Act,ActForm,Chapter,ChapterForm,Section,SectionForm, EmployeeForm,EditEmployeeForm,Employeehistory,Project,ProjectFormAll,OrganizationForm,DepartmentForm,Organization,Department,ProjectForm,
+ActHistory,ChapterHistory,SectionHistory
 from django.template import RequestContext,Context
 from django.template.loader import get_template
 from django.contrib.auth.models import User
@@ -356,8 +357,11 @@ def edit(request, ssn):
 				old=Employeeall.objects.get(SSNNO__iexact=ssn);	
 				if request.method=="POST":
 					
-					form=EditEmployeeForm(request.POST);
+					form=EditEmployeeForm(request.POST,request.FILES);
 					if form.is_valid():
+						
+            					#instance = Employeeall(Order=request.FILES['Order']);
+						#instance.save();
 						cleandata=form.cleaned_data;
 						j = Employeeall.objects.get(SSNNO=ssn);
 						#j.EmpID=request.POST['EmpID'];
@@ -370,7 +374,7 @@ def edit(request, ssn):
 						j.Office_Phone_No=cleandata['Office_Phone_No'];
 						j.Designation=cleandata['Designation'];
 						j.Address_Line=cleandata['Address_Line'];
-						j.Order=cleandata['Order'];
+						j.Order=request.FILES['Order'];
 						j.Added_By=user;
 						j.Date_Added="";
 						j.Comment=cleandata['Comment'];
@@ -390,7 +394,7 @@ Comment=old.Comment);
 					except Employeeall.DoesNotExist:
 						ins=None;
 					
-				return render(request,'home1.html',{'content_title':'Edit Employee','form':form,'action_url':'edit/%s'%(ssn),'emp':True})
+				return render(request,'home1.html',{'content_title':'Edit Employee','form':form,'action_url':'edit/%s'%(ssn), 'enctype':"multipart/form-data",'emp':True})
 #Edit employee records ends here
 
 
@@ -574,6 +578,18 @@ def showproject(request):
 				return render(request,"home1.html", {'history':content,'content_title':'All Project'})
 			else:
 				return HttpResponseRedirect('/accounts/login/');
+#Invididual Project Begins here
+def viewproject(request,id1):
+	content=None;
+	if request.user.is_authenticated():
+		query=Project.objects.get(Project_ID__exact=id1);
+		qu=query.comment_set.all();
+		t=get_template("viewproject.html");
+		content=t.render(Context({'person':query,'comment':qu}));
+		return render(request,"home1.html",{'content':content,'content_title':'Project Information'})
+	else:
+		return HttpResponseRedirect('/accounts/login');
+#Individual Project Ends here
 
 #Project history begins here
 def project_history(request,ssn):
@@ -606,4 +622,375 @@ def disemppro(request):
 				return render(request,"home1.html", {'empcontent':content,'content_title':'All Employee'})
 			else:
 				return HttpResponseRedirect('/accounts/login/');
+
+#File Open begins here
+
+def fileupload(request,name):
+	f=open(name);
+	content=f.read();
+	f.close();
+	return render(request,"file.html",{"content":content})
+
+#File Open Ends here
+
+#Comment Form Begins here
+def addcomment(request):
+		username = None;
+		form=None;
+    		if request.user.is_authenticated():
+        		user = request.user.username;
+			form=CommentForm();	
+		
+			if request.method=='POST': # If the form has been submitted...
+				form=CommentForm(request.POST); # A form bound to the POST data
+		
+				if form.is_valid(): # All validation rules pass
+					cleandata=form.cleaned_data;
+					obj=Comment(name=cleandata['name'],website=cleandata['website'],text=cleandata['text'],project=cleandata['project'],created_on="");
+					obj.save();	
+		            		return render(request,'home1.html',{'content_title':" Comment Added"} );
+				else:
+					
+		 	       		return render(request,'home1.html',{'content_title':"Invalid or Insufficient data Try again",'form':form,'action_url':'/addcomment/'});
+
+			else:
+					
+		 	       	return render(request,'home1.html',{'content_title':"Add Comment",'form':form,'action_url':'/addcomment/'});
+		else:
+			return HttpResponseRedirect('/accounts/login/');
+
+
+
+#Comment form ends here	_
+
+
+#Add Act From Begins Here
+def addact(request):
+		username = None;
+		form=None;
+    		if request.user.is_authenticated():
+        		user = request.user.username;
+			form=ActForm();	
+		
+			if request.method=='POST': # If the form has been submitted...
+				form=ActForm(request.POST); # A form bound to the POST data
+		
+				if form.is_valid(): # All validation rules pass
+					cleandata=form.cleaned_data;
+					obj=Act(No=cleandata['No'],Name=cleandata['Name'],Year=cleandata['Year'],Link=cleandata['Link']);
+					obj.save();	
+		            		return render(request,'home1.html',{'content_title':" Act Added Successfully"} );
+				else:
+					
+		 	       		return render(request,'home1.html',{'content_title':"Invalid or Insufficient data Try again",'form':form,'action_url':'/addact/'} );
+
+			else:
+					
+		 	       	return render(request,'home1.html',{'content_title':"Enter Act's Data",'form':form,'action_url':'/addact/'} );
+		else:
+			return HttpResponseRedirect('/accounts/login/');
+
+#Add Act ends here
+
+#Show all act begins here
+def showallact(request):
+			content=None;	
+			if request.user.is_authenticated():		
+		
+				#qset = (Q(SSNNO__iexact=query) |Q(EmpID__iexact=query) |Q(Name__iexact=query))
+				qset = Act.objects.all();
+				t= get_template("act.html");
+				content = t.render(Context({'details':qset}));
+			
+				return render(request,"home1.html", {'empcontent':content,'content_title':'All Act'})
+			else:
+				return HttpResponseRedirect('/accounts/login/');
+
+
+
+#Show all act ends here
+
+
+#Add Chapter Begins here
+def addchapter(request):
+		username = None;
+		form=None;
+    		if request.user.is_authenticated():
+        		user = request.user.username;
+			form=ChapterForm();	
+		
+			if request.method=='POST': # If the form has been submitted...
+				form=ChapterForm(request.POST); # A form bound to the POST data
+		
+				if form.is_valid(): # All validation rules pass
+					cleandata=form.cleaned_data;
+					obj=Chapter(Chapter_No=cleandata['Chapter_No'],Text=cleandata['Text'],Act_No=cleandata['Act_No']);
+					obj.save();	
+		            		return render(request,'home1.html',{'content_title':" Chapter Added Successfully"} );
+				else:
+					
+		 	       		return render(request,'home1.html',{'content_title':"Invalid or Insufficient data Try again",'form':form,'action_url':'/addchapter/'} );
+
+			else:
+					
+		 	       	return render(request,'home1.html',{'content_title':"Enter Chapter's Data",'form':form,'action_url':'/addchapter/'} );
+		else:
+			return HttpResponseRedirect('/accounts/login/');
+
+
+#Add chapter ends here
+
+#Show all chapter begins here
+
+def showallchapter(request):
+			content=None;	
+			if request.user.is_authenticated():		
+		
+				#qset = (Q(SSNNO__iexact=query) |Q(EmpID__iexact=query) |Q(Name__iexact=query))
+				qset = Chapter.objects.all();
+				t= get_template("chapter.html");
+				content = t.render(Context({'details':qset}));
+			
+				return render(request,"home1.html", {'empcontent':content,'content_title':'All Chapter'})
+			else:
+				return HttpResponseRedirect('/accounts/login/');
+
+#Show All chapter ends here
+
+#Add section begins here
+def addsection(request):
+		username = None;
+		form=None;
+    		if request.user.is_authenticated():
+        		user = request.user.username;
+			form=SectionForm();	
+		
+			if request.method=='POST': # If the form has been submitted...
+				form=SectionForm(request.POST); # A form bound to the POST data
+		
+				if form.is_valid(): # All validation rules pass
+					cleandata=form.cleaned_data;
+					obj=Section(Section_No=cleandata['Section_No'],Text=cleandata['Text'],Chapter_No=cleandata['Chapter_No']);
+					obj.save();	
+		            		return render(request,'home1.html',{'content_title':" Section Added Successfully"} );
+				else:
+					
+		 	       		return render(request,'home1.html',{'content_title':"Invalid or Insufficient data Try again",'form':form,'action_url':'/addsection/'} );
+
+			else:
+					
+		 	       	return render(request,'home1.html',{'content_title':"Enter Section's Data",'form':form,'action_url':'/addsection/'} );
+		else:
+			return HttpResponseRedirect('/accounts/login/');
+
+
+
+#Add section ends here
+
+#Show all Section begins here
+def showallsection(request):
+			content=None;	
+			if request.user.is_authenticated():		
+		
+				#qset = (Q(SSNNO__iexact=query) |Q(EmpID__iexact=query) |Q(Name__iexact=query))
+				qset = Section.objects.all();
+				t= get_template("section.html");
+				content = t.render(Context({'details':qset}));
+			
+				return render(request,"home1.html", {'empcontent':content,'content_title':'All Section'})
+			else:
+				return HttpResponseRedirect('/accounts/login/');
+
+#Show all Section ends here
+
+#Edit Act begins here
+def editAct(request, ssn):
+			 form=None;
+    			 if request.user.is_authenticated():
+				user = request.user.username
+				now=datetime.datetime.now();
+				old=Act.objects.get(No__iexact=ssn);	
+				if request.method=="POST":
+					
+					form=ActEditForm(request.POST);
+					if form.is_valid():
+						cleandata=form.cleaned_data;
+						j = Act.objects.get(No=ssn);
+						#j.EmpID=request.POST['EmpID'];
+											
+						#j.No=cleandata['No'];
+						j.Name=cleandata['Name'];
+						j.Year=cleandata['Year'];
+						j.Link=cleandata['Link'];
+						j.save();
+						obj=ActHistory(No=old.No,Name=old.Name,Year=old.Year,Link=old.Link,Modified_By=user,Modified_On="");
+						obj.save();	
+						return render(request,'home1.html',{'content_title':'Updated Successfully'})
+				else:
+					try:	
+						ins=Act.objects.get(No__exact=ssn)
+						form=ActEditForm(instance=ins);	
+					except Act.DoesNotExist:
+						ins=None;
+					
+				return render(request,'home1.html',{'content_title':'Edit Act','form':form,'action_url':'editAct/%s'%(ssn)})
+
+
+
+#Edit Act ends here
+
+
+#Edit Chapter begins here
+def editChapter(request, ssn):
+			 form=None;
+    			 if request.user.is_authenticated():
+				user = request.user.username
+				now=datetime.datetime.now();
+				old=Chapter.objects.get(Chapter_No__iexact=ssn);
+				no=old.Act_No;	
+				if request.method=="POST":
+					
+					form=ChapterEditForm(request.POST);
+					if form.is_valid():
+						cleandata=form.cleaned_data;
+						j = Chapter.objects.get(Chapter_No=ssn);
+						#j.EmpID=request.POST['EmpID'];
+											
+						#j.No=cleandata['No'];
+						j.Text=cleandata['Text'];
+						j.Act_No=cleandata['Act_No'];
+						j.save();
+						obj=ChapterHistory(Chapter_No=old.Chapter_No,Text=old.Text,Act_No=no.No,Modified_By=user,Modified_On="");
+						obj.save();	
+						return render(request,'home1.html',{'content_title':'Updated Successfully'})
+				else:
+					try:	
+						ins=Chapter.objects.get(Chapter_No__exact=ssn)
+						form=ChapterEditForm(instance=ins);	
+					except Chapter.DoesNotExist:
+						ins=None;
+					
+				return render(request,'home1.html',{'content_title':'Edit Chapter','form':form,'action_url':'editChapter/%s'%(ssn)})
+#Edit Chapter ends here
+
+
+#Edit Section begins here
+def editSection(request, ssn):
+			 form=None;
+    			 if request.user.is_authenticated():
+				user = request.user.username
+				now=datetime.datetime.now();
+				old=Section.objects.get(Section_No__iexact=ssn);
+				no=old.Chapter_No;	
+				if request.method=="POST":
+					
+					form=SectionEditForm(request.POST);
+					if form.is_valid():
+						cleandata=form.cleaned_data;
+						j = Section.objects.get(Section_No=ssn);
+						#j.EmpID=request.POST['EmpID'];
+											
+						#j.No=cleandata['No'];
+						j.Text=cleandata['Text'];
+						j.Chapter_No=cleandata['Chapter_No'];
+						j.save();
+						obj=SectionHistory(Section_No=old.Section_No,Text=old.Text,Chapter_No=no.Chapter_No,Modified_By=user,Modified_On="");
+						obj.save();	
+						return render(request,'home1.html',{'content_title':'Updated Successfully'})
+				else:
+					try:	
+						ins=Section.objects.get(Section_No__exact=ssn)
+						form=SectionEditForm(instance=ins);	
+					except Section.DoesNotExist:
+						ins=None;
+					
+				return render(request,'home1.html',{'content_title':'Edit Section','form':form,'action_url':'editSection/%s'%(ssn)})
+#Edit Section ends here
+
+#Chapter belonging to an Act begins here
+def act_chapter(request,ssn):
+	if request.user.is_authenticated():
+		
+		query=Act.objects.get(No__iexact=ssn);
+		qset = query.chapter_set.all();			
+		return render(request,"chapter.html", {'details':qset })
+	else:
+		return HttpResponseRedirect('/accounts/login/');
+
+#Chapter belonging to an act ends here
+
+#Section belonging to an Chapter begins here
+def chapter_section(request,ssn):
+	if request.user.is_authenticated():
+		
+		query=Chapter.objects.get(Chapter_No__iexact=ssn);
+		qset = query.section_set.all();			
+		return render(request,"section.html", {'details':qset })
+	else:
+		return HttpResponseRedirect('/accounts/login/');
+
+#Section belonging to an chapter ends here
+
+#Section belonging to an act ends here
+def act_section(request,ssn):
+	li=[];	
+	if request.user.is_authenticated():
+		query=Act.objects.get(No__iexact=ssn);
+		q = query.chapter_set.all();
+		for obj in q: 
+		
+			li.append(obj.Chapter_No);
+		qset = Section.objects.filter(Chapter_No_id__in=li);			
+		return render(request,"section.html", {'details':qset })
+	else:
+		return HttpResponseRedirect('/accounts/login/');
+
+#Section belonging to an act ends here
+
+#Show Act from chapter begins here
+def showact(request,ssn):
+	if request.user.is_authenticated():
+		
+		query=Act.objects.get(No__iexact=ssn);			
+		return render(request,"showact.html", {'details':query })
+	else:
+		return HttpResponseRedirect('/accounts/login/');
+#Show Act from chapter begins here
+
+#Show chapter from section begins here
+def showchapter(request,ssn):
+	if request.user.is_authenticated():
+		
+		query=Chapter.objects.get(Chapter_No__iexact=ssn);			
+		return render(request,"showchapter.html", {'details':query })
+	else:
+		return HttpResponseRedirect('/accounts/login/');
+#Show Chapter from section begins here
+
+#Show act history begins here
+def acthistory(request,ssn):
+	if request.user.is_authenticated():
+		query=ActHistory.objects.filter(No__iexact=ssn);
+		return render(request,"acthistory.html", {'details':query})
+
+
+#shoe act history ends here
+
+#Show chapter history begins here
+def chapterhistory(request,ssn):
+	if request.user.is_authenticated():
+		query=ChapterHistory.objects.filter(Chapter_No__iexact=ssn);
+		return render(request,"chapterhistory.html", {'details':query})
+
+
+#show chapter history ends here
+
+#Show section history begins here
+def sectionhistory(request,ssn):
+	if request.user.is_authenticated():
+		query=SectionHistory.objects.filter(Section_No__iexact=ssn);
+		return render(request,"sectionhistory.html", {'details':query})
+
+
+#show section history ends here
 

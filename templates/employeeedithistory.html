@@ -9,11 +9,18 @@
             }
         }
     }
-</script></head>
+function open_order(str1){
+	var str=str1;
+	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'fileupload/'+str  , 'Order', 'width=550px,height=450px,center=1,resize=0,scrolling=1')
+
+} 
+
+</script>
+</head>
 
 <table border="1" text-color="#ffffff" bgcolor="#666666" width=100%>
 <tr>
-	<td>SSNNO</td><td>Name</td><td>Email ID</td><td>Fax No</td><td>Office Phone</td><td>Home Phone</td><td>Designation</td><td>Address</td>
+	<td>SSNNO</td><td>Name</td><td>Email ID</td><td>Fax No</td><td>Office Phone</td><td>Home Phone</td><td>Designation</td><td>Address</td><td>Order</td>
 </tr>
 {% for person in employee %}
 <tr>
@@ -25,6 +32,7 @@
 <td class="b">{{ person.Home_Phone_No }}</td>
 <td class="a">{{ person.Designation }}</td>
 <td class="b">{{ person.Address_Line }}</td>
+<td class="b"><a href='#' Onclick="open_order('{{person.Order}}'); return false">{{ person.Order }}</a></td>
 <!--<td class="b"><a href="#" onclick="javascript:showhide('abc');">Show/Hide</a></td>-->
 </tr>
 {% endfor %}

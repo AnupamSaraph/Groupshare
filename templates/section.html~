@@ -1,0 +1,34 @@
+<script>
+function openchapter(no){
+
+	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'showchapter/'+no  , 'Chapter Detail', 'width=550px,height=450px,center=1,resize=0,scrolling=1')
+
+} 
+
+</script>
+
+<style>
+#abc
+	{
+		font-size:10px;
+		color:white;
+	}
+</style>
+
+<table border="1" text-color="#ffffff" bgcolor="#666666" id="abc" width=100%>
+<tr>
+	<td>Section No</td><td>Section Text</td><td>Chapter No</td><td>History</td><td>Edit</td>
+</tr>
+{% for person in details %}
+<tr>
+<td class="a">{{ person.Section_No }}</td>
+<td class="a">{{ person.Text }}</td>
+<td class="b"><a href="#" onClick="openchapter({{ person.Section_No }}); return false">{{ person.Chapter_No }}</a></td>
+<td class="b"><a href="#" onClick="openhistory({{ person.Section_No }}); return false">Show</a></td>
+<td><a href='/editSection/{{ person.Section_No}}' onClick="parent.emailwindow.hide()">Edit</a></td>
+</tr>
+{% endfor %}
+
+</table>	
+<br/>
+<a href="#" onClick="parent.emailwindow.hide()"> close</a>

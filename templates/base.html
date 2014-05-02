@@ -12,9 +12,11 @@
         {% block title %}{% endblock %}</title>
     </head>
 
-    <body><div id="login">{% block login %}{% endblock %}</div>
+    <body>{% block header %}{%endblock %}<div id="login">{% block login %}{% endblock %}</div>
         <h1>{% block head %}{% endblock %}</h1>
 	{% block menuWrapper %}{% endblock %}
 	{% block contentmain %} {% endblock %}
 	{% block cssmenu %}{% endblock %}
        <div id="content"> {% block content %}{% endblock %}</div> 
+	{% block footer %}{%endblock %}
+</body>

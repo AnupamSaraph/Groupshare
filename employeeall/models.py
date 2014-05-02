@@ -74,7 +74,7 @@ class Employeeall(models.Model):
 	Office_Phone_No = models.CharField(max_length=100);
 	Designation=models.CharField(max_length=200,blank=False);
 	Address_Line =models.TextField(blank=False);
-	Order=models.FileField(upload_to='media/files/',blank=True);
+	Order=models.FileField(upload_to='.',blank=True);
         Date_Added=models.DateField(auto_now=True,editable=True,blank=True);
 	Added_By=models.CharField(max_length=100);
 	Comment=models.TextField(blank=True);
@@ -109,7 +109,7 @@ class Employeehistory(models.Model):
         From=models.DateField(auto_now=False,editable=True,blank=True);
 	To=models.DateField(auto_now=True,editable=True,blank=True);	
 	Added_By=models.CharField(max_length=100);
-	Order=models.FileField(upload_to='employee',blank=True);
+	Order=models.FileField(upload_to='.',blank=False);
 	Comment=models.TextField(blank=True);
 	def __unicode__(self):	
 		return str(self.SSNNO)
@@ -153,4 +153,103 @@ class Projecthistory(models.Model):
 	Modified_On=models.DateField(auto_now=True,editable=True,blank=True);
 	def __unicode__(self):	
 		return '%d' %(self.Project_ID)
+
+
+class Comment(models.Model):		
+	name = models.CharField(max_length=42)
+	website = models.URLField(max_length=200, null=True, blank=True)
+	text = models.TextField()
+	project = models.ForeignKey(Project)
+	created_on = models.DateTimeField(auto_now_add=True)
+
+	def __unicode__(self):
+		return self.text
+
+class CommentForm(ModelForm):
+	class Meta:
+		model=Comment
+		fields=['name','website','text','project']
+
+
+class Act(models.Model):
+	No=models.IntegerField(primary_key=True,max_length=6);
+	Name=models.CharField(max_length=100);
+	Year=models.IntegerField(max_length=4);
+	Link=models.URLField(max_length=200, null=True, blank=True);
+	def __unicode__(self):	
+		return str(self.No)
+
+class ActForm(ModelForm):
+	class Meta:
+		model=Act
+		fields=['No','Name','Year','Link']
+
+class ActEditForm(ModelForm):
+	class Meta:
+		model=Act
+		fields=['Name','Year','Link']
+
+class Chapter(models.Model):
+	Chapter_No=models.IntegerField(primary_key=True,max_length=4);
+	Text=models.TextField(blank=False);
+	Act_No=models.ForeignKey(Act);
+	def __unicode__(self):
+		return str(self.Chapter_No);
+
+class ChapterForm(ModelForm):
+	class Meta:
+		model=Chapter
+		fields=['Chapter_No','Text','Act_No']
+
+class ChapterEditForm(ModelForm):
+	class Meta:
+		model=Chapter
+		fields=['Text','Act_No']
+
+class Section(models.Model):
+	Section_No=models.IntegerField(primary_key=True,max_length=4);
+	Text=models.TextField(blank=False);
+	Chapter_No=models.ForeignKey(Chapter);
+	def __unicode__(self):
+		return str(self.Section_No);
+
+class SectionForm(ModelForm):
+	class Meta:
+		model=Section
+		fields=['Section_No','Text','Chapter_No']
+
+class SectionEditForm(ModelForm):
+	class Meta:
+		model=Section
+		fields=['Text','Chapter_No']
+
+			
+class ActHistory(models.Model):
+	No=models.IntegerField(max_length=6);
+	Name=models.CharField(max_length=100);
+	Year=models.IntegerField(max_length=4);
+	Link=models.URLField(max_length=200, null=True, blank=True);
+	Modified_By=models.CharField(max_length=100);
+	Modified_On=models.DateField(auto_now=True,editable=True,blank=True);
+	def __unicode__(self):	
+		return str(self.No)
+
+class ChapterHistory(models.Model):
+	Chapter_No=models.IntegerField(max_length=4);
+	Text=models.TextField(blank=False);
+	Act_No=models.IntegerField(max_length=6);
+	Modified_By=models.CharField(max_length=100);
+	Modified_On=models.DateField(auto_now=True,editable=True,blank=True);
+	def __unicode__(self):
+		return str(self.Chapter_No);
+
+class SectionHistory(models.Model):
+	Section_No=models.IntegerField(max_length=4);
+	Text=models.TextField(blank=False);
+	Chapter_No=models.IntegerField(max_length=4);
+	Modified_By=models.CharField(max_length=100);
+	Modified_On=models.DateField(auto_now=True,editable=True,blank=True);
+	def __unicode__(self):
+		return str(self.Section_No);
+
 

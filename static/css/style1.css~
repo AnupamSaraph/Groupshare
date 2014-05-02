@@ -21,9 +21,10 @@ left:12px;
 #login	
 {
 position:relative;
-top:100px;
+top:92px;
+width:40px;
 color:white;
-left:1024px;
+left:1200px;
 }
 
 #menuWrapper {
@@ -328,10 +329,10 @@ li {
 #contentmain{
 position:relative;
 display:inline-block;
-top:48px;
+top:38px;
 left:250px;
-width:880px;
-min-height: 550px;
+width:990px;
+min-height: 513px;
 background-image:url(/static/images/images1.jpeg);
 text-align:left;
 font-size:12px;
@@ -341,10 +342,39 @@ margin-left: 10px;
 padding: 5px;
 padding-bottom: 8px;
 }
+
 #footer{
+display:inline-block;
 position:relative;
 width:100%;
+top:46px;
+min-height:80px;
 background-image:url(/static/images/footer_bg.jpg);
+text-align:left;
+font-size:12px;
+color:white;
+
+margin-left:-5px;
+padding: 5px;
+padding-bottom: 8px;
+
+}
+
+#header{
+display:inline-block;
+position:absolute;
+width:99%;
+top:0px;
+min-height:72px;
+background-image:url(/static/images/footer_bg.jpg);
+text-align:left;
+font-size:12px;
+color:white;
+
+margin-left:-5px;
+padding: 5px;
+padding-bottom: 8px;
+
 }
 
 

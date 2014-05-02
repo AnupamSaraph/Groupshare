@@ -39,4 +39,4 @@ def logout_page(request):
 @login_required
 def home1(request):
     home=True
-    return render_to_response('home1.html',{ 'user': request.user ,'home':home})
+    return render_to_response('home1.html',{ 'user': request.user })

@@ -1,0 +1,25 @@
+<!DOCTPYE html>
+<html><head><title>Personal Details</title>
+<style type="text/css">
+td.a{background:green;text-align:center}
+td.b{background:yellow;text-align:center}
+</style>
+</head>
+<body>
+<h1>Employee List</h1>
+<table border="1">
+<tr>
+	<td>Name</td><td>Email ID</td><td>Fax No</td><td>Office Phone No</td><td>Area of Operation</td><td>Address</td>
+</tr>
+{% for person in details %}
+<tr>
+<td class="a">{{ person.Name }}</td>
+<td class="b">{{ person.Email_ID }}</td>
+<td class="a">{{ person.Fax_No }}</td>
+<td class="b">{{ person.Office_Phone_No }}</td>
+<td class="a">{{ person.Area_Of_Operation }}</td>
+<td class="b">{{ person.Address_Line }}</td>
+</tr>
+{% endfor %}
+</table>
+</body></html>

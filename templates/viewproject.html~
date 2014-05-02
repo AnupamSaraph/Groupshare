@@ -1,0 +1,69 @@
+
+<script>
+    function showhide(id){
+        if (document.getElementById){
+            obj = document.getElementById(id);
+            if (obj.style.display == "none"){
+                obj.style.display = "";
+            } else {
+                obj.style.display = "none";
+            }
+        }
+    }
+</script>
+
+<table border="1" text-color="#ffffff" bgcolor="#666666" width=100%>
+<tr>
+	<td>Project Description</td><td>Information</td>
+</tr>
+<tr>
+<td>Project ID</td><td>{{ person.Project_ID }}</td>
+</tr>
+<tr>
+<td>Project Name</td><td>{{ person.Project_Name }}</td>
+</tr>
+<tr>
+<td>Project Start Date</td><td>{{ person.Start_Date }}</td>
+</tr>
+<tr>
+<td>Project End Date</td><td>{{ person.End_Date }}</td>
+</tr>
+<tr>
+<td>Amount Proposed</td><td>{{ person.Amt_Proposed }}</td>
+</tr>
+<tr>
+<td>Amount Sanctioned</td><td>{{ person.Amt_Sanctioned }}</td>
+</tr>
+<tr>
+<td>Last Year Expenditure</td><td>{{ person.Expenditure_Last_Year }}</td>
+</tr>
+<tr>
+<td>No of Installment</td><td>{{ person.No_of_Installment }}</td>
+</tr>
+<tr>
+<td>Officer In Charge ID</td><td>{{ person.Emp_SSNNO }}</td>
+</tr>
+<tr>
+<td class="b"><a href="#" onclick="javascript:showhide('abc');">Show Comment </a></td><td><a href="/addcomment">Add Comment </a></td>
+</tr>
+</table>
+
+<div id='abc' style='display:None'>
+
+{% if comment %}
+<h1>Comments</h1>
+<div class="comments">
+    {% for comments in comment %}
+        <span>
+            <a href="{{ comments.website }}">{{ comments.name }}</a> said on {{ comments.created_on }}
+        </span>
+        <p>
+            {{ comments.text }}
+        </p>
+	<hr/>
+    {% endfor %}
+</div>
+{% endif %}
+
+</div>
+

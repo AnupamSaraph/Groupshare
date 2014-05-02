@@ -1,4 +1,12 @@
 {% extends "base.html" %}
+{% block header %}
+<div id=header>
+header
+<br/>
+
+</div>
+{% endblock %}
+
 {% block title %}Home{% endblock %}
 {% block head %}Home{% endblock %}
 {% block login %}
@@ -89,6 +97,30 @@
 <li><a href='/addproject'>Add Project</a></li>
 <li><a href='/showproject'>Show All Project</a></li>
 <li><a href='/disemppro'>Show Officer In Charge</a></li>
+<li><a href='/addcomment'>Add Comment</a></li>
+</ul>
+</li>
+
+
+
+<li class='top'><a class='top_link' href='Link URL'><span class='down'>Act</span></a>
+<ul class='sub'>
+<li><a href='/addact'>Add Act</a></li>
+<li><a href='/showallact'>Show All Act</a></li>
+</ul>
+</li>
+
+<li class='top'><a class='top_link' href='Link URL'><span class='down'>Chapter</span></a>
+<ul class='sub'>
+<li><a href='/addchapter'>Add Chapter</a></li>
+<li><a href='/showallchapter'>Show All Chapter</a></li>
+</ul>
+</li>
+
+<li class='top'><a class='top_link' href='Link URL'><span class='down'>Section</span></a>
+<ul class='sub'>
+<li><a href='/addsection'>Add Section</a></li>
+<li><a href='/showallsection'>Show All Section</a></li>
 </ul>
 </li>
 
@@ -144,18 +176,31 @@
 				<center><input type ="submit" value="Submit"/></center>	
 				{% endif %}
 				
+				{% if form1 %}
+				
+				<form action={{ action_url }}  enctype={{ enctype }} method="POST">{% csrf_token %}	
+				<table border="1" bgcolor="#420000" align="center" width=100%>
+				{{ form.as_table }}
+				</table>
+				<center><input type ="submit" value="Submit"/></center>	
+				{% endif %}
 				{% if search %} {% include "./search.html" %} {% endif %}
 			
 				{% if empcontent %} {{ empcontent }} {% endif %}
 				
 				{% if history %} {{ history }}{% endif %}
+				{% if content %} {{ content }}{% endif %}
 
 
 
 </div>
 {% endblock %}
+{% block footer %}
 <div id=footer>
+All right reserved
+<br/>
+in
 
 </div>
-</body>
+{% endblock %}
 </html>
