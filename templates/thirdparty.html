@@ -1,0 +1,57 @@
+<script>
+function opendesign(no){
+
+	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'org_dept/'+no  , 'Department Detail', 'width=700px,height=450px,center=1,resize=0,scrolling=1')
+
+} 
+
+function openorgemp(no){
+
+	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'org_employee/'+no  , 'Employee Detail', 'width=700px,height=450px,center=1,resize=0,scrolling=1')
+
+}
+
+function openorgproject(no){
+
+	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'org_project/'+no  , 'Project Detail', 'width=700px,height=450px,center=1,resize=0,scrolling=1')
+
+} 
+
+function openorghis(no){
+
+	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'party_history/'+no  , 'Third Party History', 'width=700px,height=450px,center=1,resize=0,scrolling=1')
+
+} 
+ 
+
+</script>
+
+
+<table border="1" text-color="#ffffff" bgcolor="#666666" width=100%>
+<tr>
+	<td>Registeration No</td><td>Name</td><td>Address</td><td>Established Year</td><td>Kind of Company</td><td>Director's Name</td><td>DIN NO</td><td>History</td>{% if user.username %}<td>Edit</td>{% endif %}
+</tr>
+{% for person in details %}
+<tr>
+<td class="a">{{ person.Reg_No }}</td>
+<td class="a">{{ person.Name }}</td>
+<td class="b">{{ person.Address }}</td>
+<td class="a">{{ person.Established_Year }}</td>
+<td class="b">{{ person.Kind_Of_Company }}</td>
+<td class="b">{{ person.Director_Name }}</td>
+<td class="b">{{ person.Din_No }}</td>
+<td class="b"><a href="#" onClick="openorghis({{ person.Reg_No }}); return false">Show</a></td>
+{% if user.username %}<td class="b"><a href="editparty/{{ person.Reg_No }}"> Edit</a></td>{% endif %}
+<!--
+<td class="b"><a href="#" onClick="opendesign({{ person.ID }}); return false">Show</a></td>
+<td class="b"><a href="#" onClick="openorgemp({{ person.ID }}); return false">Show</a></td>
+<td class="b"><a href="#" onClick="openorgproject({{ person.ID }}); return false">Show</a></td>
+
+
+-->
+</tr>
+{% endfor %}
+
+</table>	
+
+

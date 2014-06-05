@@ -1,0 +1,65 @@
+<script>
+function openchapter(no){
+
+	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'showchapter/'+no  , 'Chapter Detail', 'width=700px,height=450px,center=1,resize=0,scrolling=1')
+
+} 
+function openhistory(no){
+
+	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'desig_history/'+no  , 'History Detail', 'width=700px,height=450px,center=1,resize=0,scrolling=1')
+
+} 
+function openapp(no){
+
+	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'desig_app/'+no  , 'Appointment Detail', 'width=700px,height=450px,center=1,resize=0,scrolling=1')
+
+} 
+function opendur(no){
+
+	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'desig_dur/'+no  , 'Duration Detail', 'width=700px,height=450px,center=1,resize=0,scrolling=1')
+
+} 
+function openpad(no){
+
+	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'desig_pad/'+no  , 'Powers and Duties Detail', 'width=700px,height=450px,center=1,resize=0,scrolling=1')
+
+} 
+function openrem(no){
+
+	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'desig_rem/'+no  , 'Removal Detail', 'width=700px,height=450px,center=1,resize=0,scrolling=1')
+
+} 
+
+</script>
+
+<style>
+#abc
+	{
+		font-size:10px;
+		color:white;
+	}
+</style>
+
+<table border="1" text-color="#ffffff" bgcolor="#666666" id="abc" width=100%>
+<tr>
+	<td>No</td><td>Designation Name</td><td>Appointment</td><td>Duration</td><td>Powers & Duties </td><td>Removal</td><td>Order</td><td>History</td><td>Edit</td>
+</tr>
+{% for person in details %}
+<tr>
+<td class="a">{{ person.Designation_No }}</td>
+<td class="a">{{ person.Designation_Name }}</td>
+<td class="a"><a href="#" onClick="openapp({{ person.Appointment_id }}); return false">{{ person.Appointment }}</a></td>
+<td class="a"><a href="#" onClick="opendur({{ person.Duration_id }}); return false">{{ person.Duration }}</a></td>
+<td class="a"><a href="#" onClick="openpad({{ person.Powers_And_Duties_id }}); return false">{{ person.Powers_And_Duties}}</a></td>
+<td class="a"><a href="#" onClick="openrem({{ person.Removal_id }}); return false">{{ person.Removal}}</a></td>
+<td class="a"><a href="fileupload/{{person.Order}}">{{ person.Order }}</a></td>
+<!--<td class="b"><a href="#" onClick="openchapter({{ person.Chapter_id }}); return false">{{ person.Chapter}}</a></td>
+-->
+<td class="b"><a href="#" onClick="openhistory({{ person.Designation_No }}); return false">Show</a></td>
+<td><a href='/editdesig/{{ person.Designation_No}}' onClick="parent.emailwindow.hide()">Edit</a></td>
+</tr>
+{% endfor %}
+
+</table>	
+<br/>
+<a href="#" onClick="parent.emailwindow.hide()"> close</a>

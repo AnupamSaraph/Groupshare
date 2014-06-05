@@ -8,13 +8,14 @@
 
 <table border="1" text-color="#ffffff" bgcolor="#666666" id="abc" width=100%>
 <tr>
-	<td>Chapter No</td><td>Text</td><td>Act No</td><td>Modified By</td><td>Modified On</td>
+	<td>Chapter No</td><td>Name</td><td>Text</td><td>Act</td><td>Modified By</td><td>Modified On</td>
 </tr>
 {% for person in details %}
 <tr>
 <td class="a">{{ person.Chapter_No }}</td>
+<td class="a">{{ person.Name }}</td>
 <td class="a">{{ person.Text }}</td>
-<td class="b">{{ person.Act_No }}</td>
+<td class="b">{{ person.Act }}</td>
 <td class="a">{{ person.Modified_By }}</td>
 <td class="a">{{ person.Modified_On }}</td>
 </tr>

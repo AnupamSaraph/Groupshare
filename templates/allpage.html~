@@ -1,0 +1,118 @@
+{% if details %}
+In Organization
+<br/>
+<table border="1" text-color="#ffffff" bgcolor="#666666" width=100%>
+<tr>
+	<td>Organization ID</td><td> Organization Name</td><td>Address</td><td>Contact No</td><td>Mission</td><td>Website URL</td><td>Show Department</td><td>Show Employee</td><td>Show Project</td>{% if user.username %}<td>Modify Record</td>{% endif %}<td>History</td>
+</tr>
+{% for person in details %}
+<tr>
+<td class="a">{{ person.ID }}</td>
+<td class="a">{{ person.Name }}</td>
+<td class="b">{{ person.Address }}</td>
+<td class="a">{{ person.Contact_No }}</td>
+<td class="b">{{ person.Mission }}</td>
+<td class="b">{{ person.Web_Url }}</td>
+<td class="b"><a href="#" onClick="opendesign({{ person.ID }}); return false">Show</a></td>
+<td class="b"><a href="#" onClick="openorgemp({{ person.ID }}); return false">Show</a></td>
+<td class="b"><a href="#" onClick="openorgproject({{ person.ID }}); return false">Show</a></td>
+{% if user.username %}
+<td class="b"><a href="editOrg/{{ person.ID }}"> Edit</a></td>
+{% endif %}
+<td class="b"><a href="#" onClick="openorghis({{ person.ID }}); return false">Show</a></td>
+</tr>
+{% endfor %}
+
+</table>
+<hr/>	
+{% endif %}
+
+{% if empl %}
+In Employee
+<br/>
+<table border="1" text-color="#ffffff" bgcolor="#666666" width=100%>
+<tr>
+	<td>SSNNO</td><td>Name</td><td>Email ID</td><td>Fax No</td><td>Office Phone</td><td>Home Phone</td><td>Designation</td><td>Address</td><td>Date Added</td><td>Added By</td><td>Dept</td><td>History</td>{% if user.username %}<td>Modify</td>{% endif %}<td>Order</td>
+</tr>
+{% for person in empl %}
+<tr>
+<td class="a">{{ person.SSNNO }}</td>
+<td class="a">{{ person.Name }}</td>
+<td class="b">{{ person.Email_ID }}</td>
+<td class="a">{{ person.Fax_No }}</td>
+<td class="b"><a href="#" onClick="openemail({{person.Office_Phone_No }}); return false">{{ person.Office_Phone_No }}</a></td>
+<td class="b">{{ person.Home_Phone_No }}</td>
+<td class="c"><a href="#" onClick="opendesign('{{person.Designation }}'); return false">{{ person.Designation }}</a></td>
+<td class="b">{{ person.Address_Line }}</td>
+<td class="b">{{ person.Date_Added }}</td>
+<td class="b">{{ person.Added_By }}</td>
+<td class="b"><a href="#" onClick="opendept({{person.Department_id}}); return false">{{ person.Department }}</a></td>
+<td class="a"><a href="#" onClick="openleture({{ person.SSNNO }}); return false">Show/Hide</a></td>
+{% if user.username %}<td class="b"><a href="edit/{{person.SSNNO}}">Edit</a></td>{% endif %}
+<!--<td class="b">{{ person.Order }}</td>-->
+<!--<td class="a"><a href= '#' onClick= "open_order('{{person.Order}}'); return false">{{ person.Order }}</a></td>-->
+<td class="b"><a href="fileupload/{{person.Order}}">{{person.Order}}</a></td>
+</tr>
+{% endfor %}
+
+</table>	
+<hr/>
+{% endif %}
+
+{% if pro %}
+In Project
+<table border="1" text-color="#ffffff" bgcolor="#666666" width=100%>
+<tr>
+	<td>Project ID</td><td> Project Name</td><td>Start Date</td><td>End Date</td><td>Amount Proposed</td><td>Amount Sanctioned</td><td>Last Year Exp</td><td>No OF Installment</td><td>Officer's In charge</td>{% if user.username %}<td>Modify</td>{% endif %}<td>History</td><td>Info</td>
+</tr>
+{% for person in pro %}
+<tr>
+<td class="a">{{ person.Project_ID }}</td>
+<td class="a">{{ person.Project_Name }}</td>
+<td class="b">{{ person.Start_Date }}</td>
+<td class="a">{{ person.End_Date }}</td>
+<td class="b">{{ person.Amt_Proposed }}</td>
+<td class="b">{{ person.Amt_Sanctioned }}</td>
+<td class="a">{{ person.Expenditure_Last_Year }}</td>
+<td class="b">{{ person.No_of_Installment }}</td>
+<td class="b"><a href="#" onClick="opendesign({{ person.Officer_In_Charge_id }}); return false">{{ person.Officer_In_Charge }}</a></td>
+{% if user.username %}<td class="b"><a href="edit_project/{{ person.Project_ID }}">Edit</a></td>{% endif %}
+<td class="b"><a href="#" onClick="openprojecthis({{ person.Project_ID }}); return false">Show</a></td>
+<td><a href="viewproject/{{person.Project_ID }}">View</a></td>
+</tr>
+{% endfor %}
+
+</table>	
+<hr/>
+{% endif %}
+
+{% if third %}
+In Third Party
+<table border="1" text-color="#ffffff" bgcolor="#666666" width=100%>
+<tr>
+	<td>Registeration No</td><td>Name</td><td>Address</td><td>Established Year</td><td>Kind of Company</td><td>Director's Name</td><td>DIN NO</td><td>History</td>{% if user.username %}<td>Edit</td>{% endif %}
+</tr>
+{% for person in third %}
+<tr>
+<td class="a">{{ person.Reg_No }}</td>
+<td class="a">{{ person.Name }}</td>
+<td class="b">{{ person.Address }}</td>
+<td class="a">{{ person.Established_Year }}</td>
+<td class="b">{{ person.Kind_Of_Company }}</td>
+<td class="b">{{ person.Director_Name }}</td>
+<td class="b">{{ person.Din_No }}</td>
+<td class="b"><a href="#" onClick="openorghis({{ person.Reg_No }}); return false">Show</a></td>
+{% if user.username %}<td class="b"><a href="editparty/{{ person.Reg_No }}"> Edit</a></td>{% endif %}
+<!--
+<td class="b"><a href="#" onClick="opendesign({{ person.ID }}); return false">Show</a></td>
+<td class="b"><a href="#" onClick="openorgemp({{ person.ID }}); return false">Show</a></td>
+<td class="b"><a href="#" onClick="openorgproject({{ person.ID }}); return false">Show</a></td>
+
+
+-->
+</tr>
+{% endfor %}
+
+</table>	
+<hr/>
+{% endif %}

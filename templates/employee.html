@@ -11,38 +11,38 @@
     }
 function openleture(no){
 
-	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'emp/'+no  , 'Employee history', 'width=550px,height=450px,center=1,resize=0,scrolling=1')
+	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'emp/'+no  , 'Employee history', 'width=700px,height=450px,center=1,resize=0,scrolling=1')
 
 } 
 
 function openemail(no){
-	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'phonehis/'+no  , 'phone history', 'width=550px,height=450px,center=1,resize=0,scrolling=1')
+	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'phonehis/'+no  , 'phone history', 'width=700px,height=450px,center=1,resize=0,scrolling=1')
 
 } 
 
 function opendesign(str1){
 	var str=str1;
-	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'designationhis/'+str  , 'designation history', 'width=550px,height=450px,center=1,resize=0,scrolling=1')
+	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'designationhis/'+str  , 'designation history', 'width=700px,height=450px,center=1,resize=0,scrolling=1')
 
 } 
 
 function opendept(no){
-	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'deptinfo/'+no  , 'phone history', 'width=550px,height=450px,center=1,resize=0,scrolling=1')
+	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'deptinfo/'+no  , 'department information', 'width=700px,height=450px,center=1,resize=0,scrolling=1')
 
 } 
 
 function open_order(str1){
 	var str=str1;
-	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'fileupload/'+str  , 'Order', 'width=550px,height=450px,center=1,resize=0,scrolling=1')
+	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'fileupload/'+str  , 'Order', 'width=700px,height=450px,center=1,resize=1,scrolling=1')
 
 } 
 	
 </script>
 
 
-<table border="1" text-color="#ffffff" bgcolor="#666666">
+<table border="1" text-color="#ffffff" bgcolor="#666666" width=100%>
 <tr>
-	<td>SSNNO</td><td>Name</td><td>Email ID</td><td>Fax No</td><td>Office Phone</td><td>Home Phone</td><td>Designation</td><td>Address</td><td>Date Added</td><td>Added By</td><td>Dept ID</td><td>History</td><td>Modify</td><td>Order</td>
+	<td>SSNNO</td><td>Name</td><td>Email ID</td><td>Fax No</td><td>Office Phone</td><td>Home Phone</td><td>Designation</td><td>Address</td><td>Date Added</td><td>Added By</td><td>Dept</td><td>History</td>{% if user.username %}<td>Modify</td>{% endif %}<td>Order</td>
 </tr>
 {% for person in details %}
 <tr>
@@ -56,11 +56,12 @@ function open_order(str1){
 <td class="b">{{ person.Address_Line }}</td>
 <td class="b">{{ person.Date_Added }}</td>
 <td class="b">{{ person.Added_By }}</td>
-<td class="b"><a href="#" onClick="opendept({{person.Dep_ID}}); return false">{{ person.Dep_ID }}</a></td>
+<td class="b"><a href="#" onClick="opendept({{person.Department_id}}); return false">{{ person.Department }}</a></td>
 <td class="a"><a href="#" onClick="openleture({{ person.SSNNO }}); return false">Show/Hide</a></td>
-<td class="b"><a href="edit/{{person.SSNNO}}">Edit</a></td>
+{% if user.username %}<td class="b"><a href="edit/{{person.SSNNO}}">Edit</a></td>{% endif %}
 <!--<td class="b">{{ person.Order }}</td>-->
-<td class="a"><a href= '#' onClick= "open_order('{{person.Order}}'); return false">{{ person.Order }}</a></td>
+<!--<td class="a"><a href= '#' onClick= "open_order('{{person.Order}}'); return false">{{ person.Order }}</a></td>-->
+<td class="b"><a href="fileupload/{{person.Order}}">{{person.Order}}</a></td>
 </tr>
 {% endfor %}
 

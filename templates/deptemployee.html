@@ -7,7 +7,7 @@
 </style>
 <table border="1" text-color="#ffffff" bgcolor="#666666" id="abc">
 <tr>
-	<td>SSNNO</td><td>Name</td><td>Email ID</td><td>Fax No</td><td>Office Phone</td><td>Home Phone</td><td>Designation</td><td>Address</td><td>Date Added</td><td>Added By</td><td>Dept ID</td>
+	<td>SSNNO</td><td>Name</td><td>Email ID</td><td>Fax No</td><td>Office Phone</td><td>Home Phone</td><td>Designation</td><td>Address</td><td>Date Added</td><td>Added By</td><td>Deptartment</td>
 </tr>
 {% for person in details %}
 <tr>
@@ -21,7 +21,7 @@
 <td class="b">{{ person.Address_Line }}</td>
 <td class="b">{{ person.Date_Added }}</td>
 <td class="b">{{ person.Added_By }}</td>
-<td class="b">{{ person.Dep_ID }}</td>
+<td class="b">{{ person.Department }}</td>
 </tr>
 {% endfor %}
 

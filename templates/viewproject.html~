@@ -10,11 +10,19 @@
             }
         }
     }
+function open_order(str1){
+	var str=str1;
+	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'fileupload/'+str  , 'Order', 'width=700px,height=450px,center=1,resize=1,scrolling=1')
+}
+function openparty(str1){
+	var str=str1;
+	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'projectparty/'+str  , 'Third Party Detail', 'width=700px,height=450px,center=1,resize=1,scrolling=1')
+}
 </script>
 
 <table border="1" text-color="#ffffff" bgcolor="#666666" width=100%>
 <tr>
-	<td>Project Description</td><td>Information</td>
+	<td>Fields Name</td><td>Description</td>
 </tr>
 <tr>
 <td>Project ID</td><td>{{ person.Project_ID }}</td>
@@ -41,8 +49,16 @@
 <td>No of Installment</td><td>{{ person.No_of_Installment }}</td>
 </tr>
 <tr>
-<td>Officer In Charge ID</td><td>{{ person.Emp_SSNNO }}</td>
-</tr>
+<td>Officer In Charge </td><td>{{ person.Officer_In_Charge }}</td>
+</tr><tr>
+<td>Tender Notice</td><td class="b"><a href="fileupload/{{person.Tender_Notice}}">{{ person.Tender_Notice }}</a></td>
+</tr><tr>
+<td>Tender Submited</td><td class="b"><a href="fileupload/{{person.Tender_Submitted}}">{{ person.Tender_Submitted }}</a></td>
+</tr><tr>
+<td>Contract</td><td class="b"><a href="fileupload/{{person.Contract}}">{{ person.Contract }}</a></td>
+</tr><tr>
+<td>Third Party</td><td class="b"><a href="#" onClick="openparty({{ person.Third_Party_id }}); return false">{{ person.Third_Party }}</a></td>
+<tr>
 <tr>
 <td class="b"><a href="#" onclick="javascript:showhide('abc');">Show Comment </a></td><td><a href="/addcomment">Add Comment </a></td>
 </tr>
@@ -51,7 +67,7 @@
 <div id='abc' style='display:None'>
 
 {% if comment %}
-<h1>Comments</h1>
+<h2>Comments</h2>
 <div class="comments">
     {% for comments in comment %}
         <span>

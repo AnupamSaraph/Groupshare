@@ -3,18 +3,20 @@
 	{
 		font-size:10px;
 		color:white;
+	
 	}
 </style>
 
 <table border="1" text-color="#ffffff" bgcolor="#666666" id="abc" width=100%>
 <tr>
-	<td>Section No</td><td>Text</td><td>Chapter No</td><td>Modified By</td><td>Modified On</td>
+	<td>Section No</td><td>Name</td><td>Text</td><td>Chapter</td><td>Modified By</td><td>Modified On</td>
 </tr>
 {% for person in details %}
 <tr>
 <td class="a">{{ person.Section_No }}</td>
+<td class="a">{{ person.Name }}</td>
 <td class="a">{{ person.Text }}</td>
-<td class="b">{{ person.Chapter_No }}</td>
+<td class="b">{{ person.Chapter	 }}</td>
 <td class="a">{{ person.Modified_By }}</td>
 <td class="a">{{ person.Modified_On }}</td>
 </tr>

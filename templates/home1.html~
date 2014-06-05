@@ -9,12 +9,20 @@ header
 
 {% block title %}Home{% endblock %}
 {% block head %}Home{% endblock %}
-{% block login %}
+{% block login %}{% if user.username %}
 <table>
 <tr>
     <td>Welcome {{user.username }}!!!</td><td><a href="/logout/">Logout</a></td>
-</tr>
+		</tr>
 </table>
+{% else %}
+<table>
+<tr>
+    <td><a href="/accounts/login/">Login</a></td><br/>
+		</tr>
+</table>
+
+{% endif %}
 {% endblock %}
 {% block menuWrapper %}
  <div id='menuWrapper'>
@@ -56,25 +64,26 @@ header
 </ul>
 </li>-->
 
-<li class='top'><a class='top_link' href='Link URL'><span class='down'>Organization</span></a>
+<li class='top'><a class='top_link' href='#'><span class='down'>Organization</span></a>
 <ul class='sub'>
-<li><a href='/addorganization'>Add New</a></li>
+{% if user.username %}
+<li><a href='/addorganization'>Add New</a></li>{% endif %}
 <li><a href='/displayorg'>Show All</a></li>
 <li><a href='Link URL'>Submenu 3.3</a></li>
 <li><a href='Link URL'>Submenu 3.4</a></li>
 </ul>
 </li>
 
-<li class='top'><a class='top_link' href='Link URL'><span class='down'>Department</span></a>
-<ul class='sub'>
-<li><a href='/adddepartment'>Add New</a></li>
+<li class='top'><a class='top_link' href='#'><span class='down'>Department</span></a>
+<ul class='sub'>{% if user.username %}
+<li><a href='/adddepartment'>Add New</a></li>{% endif %}
 <li><a href='/displaydept'>Show All</a>
 </ul>
 </li>
 <li class='top'><a class='top_link' href='#'><span class='down'>Employee  Detail</span></a>
-		<ul class='sub'>
-			<li><a href='/addemployee'>Add Employee</a></li>
-			<li><a href='/search'>Edit Employee</a></li>
+		<ul class='sub'>{% if user.username %}
+			<li><a href='/addemployee'>Add Employee</a></li>{% endif %}
+			<li><a href='/search'>Search Employee</a></li>
 			<li><a class='fly' href='#'>Show History</a>
 				<ul>
 					<li><a href='/edithistory'>All</a></li>
@@ -92,44 +101,89 @@ header
 		</ul>
 	</li>
 
-<li class='top'><a class='top_link' href='Link URL'><span class='down'>Project</span></a>
-<ul class='sub'>
-<li><a href='/addproject'>Add Project</a></li>
+<li class='top'><a class='top_link' href='#'><span class='down'>Project</span></a>
+<ul class='sub'>{% if user.username %}
+<li><a href='/addproject'>Add Project</a></li>{% endif %}
 <li><a href='/showproject'>Show All Project</a></li>
-<li><a href='/disemppro'>Show Officer In Charge</a></li>
-<li><a href='/addcomment'>Add Comment</a></li>
+<li><a href='/disemppro'>Show Officer In Charge</a></li>{% if user.username %}
+<li><a href='/addcomment'>Add Comment</a></li>{% endif %}
 </ul>
 </li>
 
 
 
-<li class='top'><a class='top_link' href='Link URL'><span class='down'>Act</span></a>
-<ul class='sub'>
-<li><a href='/addact'>Add Act</a></li>
+<li class='top'><a class='top_link' href='#'><span class='down'>Act</span></a>
+<ul class='sub'>{% if user.username %}
+<li><a href='/addact'>Add Act</a></li>{% endif %}
 <li><a href='/showallact'>Show All Act</a></li>
 </ul>
 </li>
 
-<li class='top'><a class='top_link' href='Link URL'><span class='down'>Chapter</span></a>
-<ul class='sub'>
-<li><a href='/addchapter'>Add Chapter</a></li>
+<li class='top'><a class='top_link' href='#'><span class='down'>Chapter</span></a>
+<ul class='sub'>{% if user.username %}
+<li><a href='/addchapter'>Add Chapter</a></li>{% endif %}
 <li><a href='/showallchapter'>Show All Chapter</a></li>
 </ul>
 </li>
 
-<li class='top'><a class='top_link' href='Link URL'><span class='down'>Section</span></a>
-<ul class='sub'>
-<li><a href='/addsection'>Add Section</a></li>
+<li class='top'><a class='top_link' href='#'><span class='down'>Section</span></a>
+<ul class='sub'>{% if user.username %}
+<li><a href='/addsection'>Add Section</a></li>{% endif %}
 <li><a href='/showallsection'>Show All Section</a></li>
+</ul>
+</li>
+
+<li class='top'><a class='top_link' href='#'><span class='down'>Designation</span></a>
+<ul class='sub'>
+<li><a class='fly' href='#'>Appointment</a>
+				<ul>{% if user.username %}
+					<li><a href='/addapp'>Add Appointment</a></li>{% endif %}
+					<li><a href='/showallapp'>Show All Appointment</a></li>
+	
+				</ul>
+</li>
+<li><a class='fly' href='#'>Duration</a>
+				<ul>{% if user.username %}
+					<li><a href='/adddur'>Add Duration</a></li>{% endif %}
+					<li><a href='/showalldur'>Show All Duration</a></li>
+	
+				</ul>
+</li>
+
+<li><a class='fly' href='#'>Powers And Duties</a>
+				<ul>{% if user.username %}
+					<li><a href='/addpad'>Add Powers And Duties</a></li>{% endif %}
+					<li><a href='/showallpad'>Show All Powers And Duties</a></li>
+	
+				</ul>
+</li>
+<li><a class='fly' href='#'>Removal</a>
+				<ul>{% if user.username %}
+					<li><a href='/addrem'>Add Removal</a></li>{% endif %}
+					<li><a href='/showallrem'>Show All Removal</a></li>
+	
+				</ul>
+</li>
+
+{% if user.username %}
+<li><a href='/add_desig'>Add Designation</a></li>{% endif %}
+<li><a href='/showalldesig'>Show All Designation</a></li>
+</ul>
+</li>
+
+<li class='top'><a class='top_link' href='#'><span class='down'>ThirdParty</span></a>
+<ul class='sub'>{% if user.username %}
+<li><a href='/addthirdparty'>Add ThirdParty</a></li>{% endif %}
+<li><a href='/showallparty'>Show All ThirdParty</a></li>
 </ul>
 </li>
 
 
  
-<li>
+<!--<li>
 <form action='/search' id='search' method='get' name='searchForm' style='display:inline;'>
 <input id='search-box' name='q' onblur='if (this.value == &quot;&quot;) this.value = &quot;Search here...&quot;;' onfocus='if (this.value == &quot;Search here...&quot;) this.value = &quot;&quot;;' size='28' type='text' value='Search here...'/></form>
-</li>
+</li>-->
 </ul>
 </div>
 {% endblock %}
@@ -147,8 +201,8 @@ header
 	<li><a class='fly' href='/home'>Home</a></li>
 	<li><a class='fly' href='#'>About Us</a>
 	<li><a class='fly' href='#'>Contact Info</a>
-	<li><a class='fly' href='/accounts/login'>Logout</a>
-	<li><a class='fly' href='/register'>Register</a>
+	<!--<li><a class='fly' href='/accounts/login'>Log In</a>-->{% if user.username %}
+	<li><a class='fly' href='/register'>Register</a>{% endif %}
     </ul>
 
 </div>
@@ -161,9 +215,9 @@ header
 					
 				{% if home %}
 				<center>
-				{% include "./trial.html" %}</center>
+				{% include "./allsearch.html" %}</center>
 				{% endif %}
-				{% if emp %}{% include "emphome.html" %} 	{% endif %}
+			<!--	{% if emp %}{% include "emphome.html" %} 	{% endif %}-->
 				<center><h1>{{ content_title }}</h1></center>
 				
 			
@@ -180,11 +234,12 @@ header
 				
 				<form action={{ action_url }}  enctype={{ enctype }} method="POST">{% csrf_token %}	
 				<table border="1" bgcolor="#420000" align="center" width=100%>
-				{{ form.as_table }}
+				{{ form1.as_table }}
 				</table>
 				<center><input type ="submit" value="Submit"/></center>	
 				{% endif %}
 				{% if search %} {% include "./search.html" %} {% endif %}
+				{% if allsearch %} {% include "./allsearch.html" %} {% endif %}
 			
 				{% if empcontent %} {{ empcontent }} {% endif %}
 				

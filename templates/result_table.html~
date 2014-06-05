@@ -1,4 +1,12 @@
-<table border="1" bgcolor='#66666'>
+<style>
+#abc
+{
+	font-size:10px;
+	width:100%;
+	color:white;
+}
+</style>
+<table border="1" bgcolor='#66666' id="abc">
 <tr>
 	<td>SSNNO</td><td>Name</td><td>Email ID</td><td>Fax No</td><td>Office Phone No</td><td>Designation</td><td>Address</td>
 </tr>

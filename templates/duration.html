@@ -1,0 +1,54 @@
+<script>
+function openhistory(no){
+
+	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'dur_history/'+no  , 'History Detail', 'width=700px,height=450px,center=1,resize=0,scrolling=1')
+
+} 
+function openact(no){
+
+	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'appact/'+no  , 'Act Detail', 'width=700px,height=450px,center=1,resize=0,scrolling=1')
+
+} 
+function openchapter(no){
+
+	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'appchapter/'+no  , 'Chapter Detail', 'width=700px,height=450px,center=1,resize=0,scrolling=1')
+
+} 
+function opensection(no){
+
+	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'appsection/'+no  , 'Section Detail', 'width=700px,height=450px,center=1,resize=0,scrolling=1')
+
+} 
+
+</script>
+
+<style>
+#abc
+	{
+		font-size:10px;
+		color:white;
+	}
+</style>
+
+<table border="1" text-color="#ffffff" bgcolor="#666666" id="abc" width=100%>
+<tr>
+	<td>No</td><td>Text</td><td>Section</td><td>Chapter </td><td>Act</td><td>Order</td><td>History</td>{% if user.username %}<td>Edit</td>{% endif %}
+</tr>
+{% for person in details %}
+<tr>
+<td class="a">{{ person.No }}</td>
+<td class="a">{{ person.Text }}</td>
+<td class="a"><a href="#" onClick="opensection({{ person.Section_id }}); return false">{{ person.Section }}</a></td>
+<td class="a"><a href="#" onClick="openchapter({{ person.Chapter_id }}); return false">{{ person.Chapter }}</a></td>
+<td class="a"><a href="#" onClick="openact({{ person.Act_id }}); return false">{{ person.Act }}</a></td>
+<td class="a"><a href="fileupload/{{person.Order}}">{{ person.Order }}</a></td>
+<!--<td class="b"><a href="#" onClick="openchapter({{ person.Chapter_id }}); return false">{{ person.Chapter}}</a></td>
+-->
+<td class="b"><a href="#" onClick="openhistory({{ person.No }}); return false">Show</a></td>
+{% if user.username %}<td><a href='/editdur/{{ person.No}}' onClick="parent.emailwindow.hide()">Edit</a></td>{% endif %}
+</tr>
+{% endfor %}
+
+</table>	
+<br/>
+<a href="#" onClick="parent.emailwindow.hide()"> close</a>

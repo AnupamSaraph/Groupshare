@@ -1,17 +1,17 @@
 <script>
 function opensection(no){
 
-	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'chapter_section/'+no  , 'Section Detail', 'width=550px,height=450px,center=1,resize=0,scrolling=1')
+	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'chapter_section/'+no  , 'Section Detail', 'width=700px,height=450px,center=1,resize=0,scrolling=1')
 
 } 
 function openact(no){
 
-	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'showact/'+no  , 'Act Detail', 'width=550px,height=450px,center=1,resize=0,scrolling=1')
+	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'showact/'+no  , 'Act Detail', 'width=700px,height=450px,center=1,resize=0,scrolling=1')
 
 } 
 function openhistory(no){
 
-	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'chapter_history/'+no  , 'History Detail', 'width=550px,height=450px,center=1,resize=0,scrolling=1')
+	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'chapter_history/'+no  , 'History Detail', 'width=700px,height=450px,center=1,resize=0,scrolling=1')
 
 } 
 
@@ -28,16 +28,17 @@ function openhistory(no){
 
 <table border="1" text-color="#ffffff" bgcolor="#666666" id="abc" width=100%>
 <tr>
-	<td>Chapter No</td><td>Chapter Text</td><td>Act No</td><td>Show Section</td><td>History</td><td>Edit</td>
+	<td>Chapter No</td><td>Name</td><td>Chapter Text</td><td>Act Information</td><td>Show Section</td><td>History</td>{% if user.username %}<td>Edit</td>{% endif %}
 </tr>
 {% for person in details %}
 <tr>
 <td class="a">{{ person.Chapter_No }}</td>
+<td class="a">{{ person.Name }}</td>
 <td class="a">{{ person.Text }}</td>
-<td class="b"><a href="#" onClick="openact({{ person.Chapter_No }}); return false">{{ person.Act_No }}</a></td>
+<td class="b"><a href="#" onClick="openact({{ person.Act_id }}); return false">{{ person.Act }}</a></td>
 <td class="b"><a href="#" onClick="opensection({{ person.Chapter_No }}); return false">Show</a></td>
 <td class="b"><a href="#" onClick="openhistory({{ person.Chapter_No }}); return false">Show</a></td>
-<td><a href='/editChapter/{{ person.Chapter_No}}'>Edit</a></td>
+{% if user.username %}<td><a href='/editChapter/{{ person.Chapter_No}}'>Edit</a></td>{% endif %}
 </tr>
 {% endfor %}
 

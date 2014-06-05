@@ -2,12 +2,12 @@
 <h1>Search</h1>
 <form action="" method="POST">{% csrf_token %} 
 <label for="q">Search: </label>
-<input type="text" name='q' placeholder="SEARCH BY SSNNO"/>
+<input type="text" name='q' placeholder="search by SSSNO or name"/>
 <input type="submit" value="Search"/>
 {% if query %}
 <h2>Results for "{{ query|escape }}":</h2>
-{% if content %}
-{{ content }}	
+{% if contentsea %}
+{{ contentsea }}	
 {% else %}
 <p>No record found</p>
 {% endif %}

@@ -1,17 +1,17 @@
 <script>
 function openchapter(no){
 
-	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'act_chapter/'+no  , 'Chapter Detail', 'width=550px,height=450px,center=1,resize=0,scrolling=1')
+	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'act_chapter/'+no  , 'Chapter Detail', 'width=700px,height=450px,center=1,resize=0,scrolling=1')
 
 } 
 function opensection(no){
 
-	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'act_section/'+no  , 'Section Detail', 'width=550px,height=450px,center=1,resize=0,scrolling=1')
+	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'act_section/'+no  , 'Section Detail', 'width=700px,height=450px,center=1,resize=0,scrolling=1')
 
 } 
 function openhistory(no){
 
-	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'act_history/'+no  , 'History Detail', 'width=550px,height=450px,center=1,resize=0,scrolling=1')
+	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'act_history/'+no  , 'History Detail', 'width=700px,height=450px,center=1,resize=0,scrolling=1')
 
 } 
 
@@ -26,7 +26,7 @@ function openhistory(no){
 
 <table border="1" text-color="#ffffff" bgcolor="#666666" id="abc" width=100%>
 <tr>
-	<td>Act No</td><td>Act Name</td><td>Year</td><td>Link</td><td>Show Chapter</td><td>Show Section</td><td>History</td><td>Edit</td>
+	<td>Act No</td><td>Act Name</td><td>Year</td><td>Link</td><td>Show Chapter</td><td>Show Section</td><td>History</td>{% if user.username %}<td>Edit</td>{% endif %}
 </tr>
 {% for person in details %}
 <tr>
@@ -37,7 +37,7 @@ function openhistory(no){
 <td class="b"><a href="#" onClick="openchapter({{ person.No }}); return false">Show</a></td>
 <td class="b"><a href="#" onClick="opensection({{ person.No }}); return false">Show</a></td>
 <td class="b"><a href="#" onClick="openhistory({{ person.No }}); return false">Show</a></td>
-<td><a href='/editAct/{{ person.No}}'>Edit</a></td>
+{% if user.username %}<td><a href='/editAct/{{ person.No}}'>Edit</a></td>{% endif %}
 </tr>
 {% endfor %}
 

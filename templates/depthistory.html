@@ -3,11 +3,12 @@
 {
 	color:white;
 	font-size:10px;
+	width:100%;
 }
 </style>
-<table border="1" text-color="#ffffff" bgcolor="#666666" id="abc">
+<table border="1" text-color="#ffffff" bgcolor="#666666" id="abc" >
 <tr>
-	<td>Department ID</td><td> Department Name</td><td>Address</td><td>Contact No</td><td>Modified By</td><td>Modified On</td>
+	<td>Department ID</td><td> Department Name</td><td>Address</td><td>Contact No</td><td>Organization</td><td>Modified By</td><td>Modified On</td>
 	
 </tr>
 {% for person in details %}
@@ -16,6 +17,7 @@
 <td class="a">{{ person.Name }}</td>
 <td class="b">{{ person.Address }}</td>
 <td class="a">{{ person.Contact_No }}</td>
+<td class="a">{{ person.Organization }}</td>
 <td class="a">{{ person.Modified_By }}</td>
 <td class="a">{{ person.Modified_On }}</td>
 </tr>

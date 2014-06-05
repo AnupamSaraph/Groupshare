@@ -1,0 +1,43 @@
+<script>
+function openchapter(no){
+
+	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'showchapter/'+no  , 'Chapter Detail', 'width=700px,height=450px,center=1,resize=0,scrolling=1')
+
+} 
+function openhistory(no){
+
+	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'app_history/'+no  , 'History Detail', 'width=700px,height=450px,center=1,resize=0,scrolling=1')
+
+} 
+
+</script>
+
+<style>
+#abc
+	{
+		font-size:10px;
+		color:white;
+	}
+</style>
+
+<table border="1" text-color="#ffffff" bgcolor="#666666" id="abc" width=100%>
+<tr>
+	<td>Designation_No</td><td>Designation_Name</td><td>Appointment</td><td>Duration </td><td>Powers_And_Duties</td><td>Removal</td><td>Order</td><td>Modified By</td><td>Modified On</td>
+</tr>
+{% for person in details %}
+<tr>
+<td class="a">{{ person.Designation_No }}</td>
+<td class="a">{{ person.Designation_Name }}</td>
+<td class="a">{{ person.Appointment }}</td>
+<td class="a">{{ person.Duration }}</td>
+<td class="a">{{ person.Powers_And_Duties }}</td>
+<td class="a">{{ person.Removal }}</td>
+<td class="a">{{ person.Order }}</td>
+<td class="a">{{ person.Modified_By }}</td>
+<td class="a">{{ person.Modified_On }}</td>
+</tr>
+{% endfor %}
+
+</table>	
+<br/>
+<a href="#" onClick="parent.emailwindow.hide()"> close</a>

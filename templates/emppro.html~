@@ -18,7 +18,7 @@
 <td class="b">{{ person.Amt_Sanctioned }}</td>
 <td class="a">{{ person.Expenditure_Last_Year }}</td>
 <td class="b">{{ person.No_of_Installment }}</td>
-<td class="b">{{ person.Emp_SSNNO }}</td>
+<td class="b">{{ person.Officer_In_Charge }}</td>
 </tr>
 {% endfor %}
 

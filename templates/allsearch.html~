@@ -1,0 +1,17 @@
+<center>
+<h1>Search</h1>
+<form action="./allsearch/" method="POST">{% csrf_token %} 
+<label for="q">Search: </label>
+<input type="text" name='q' placeholder="table_name : character or string to be search" size="45"/>
+<input type="submit" value="Search"/>
+</center>
+{% if query %}
+<h2>Results for "{{ query|escape }}":</h2>
+{% if contentsea %}
+{{ contentsea }}	
+{% elif contentemp %}
+{{ contentemp }}	
+{% else %}
+<p>No record found</p>
+{% endif %}
+{% endif %}

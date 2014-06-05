@@ -1,0 +1,53 @@
+{% include 'in_temp' %}
+<html>
+<head>
+ <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<!--<script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>-->
+
+</head>
+<body><br/><br/>
+<form action="/ajax/" method="GET" >
+	<input title="" type="button" name="mybutton" id="refresh" value="Refresh" />
+	<div id="box"></div>
+
+</form>
+<script type="text/javascript" >
+function get_content(){
+	xmlhttp=new XMLHttpRequest();
+	xmlhttp.onreadystatechange = function(){
+		if(xmlhttp.readyState == 4 && xmlhttp.status==200){
+						return xmlhttp.responseText;
+		}	
+	}	
+	xmlhttp.open("GET","/ajax-query/",true);
+	xmlhttp.send();
+}
+</script>
+<script type="text/javascript" >
+$(document).ready(function(){
+	
+	$("#refresh").hover(function(){
+			//get_content();
+			$.get("/ajax-query/",function(data,status){ 
+				$("#refresh").attr("title",data);
+				
+				$("#refresh").tooltip();			
+			});
+			
+      
+    });
+	$("#refresh").click(function(){
+			//get_content();
+			
+	$("#box").load("/ajax-query/");
+	
+	});
+	
+	});
+	
+	
+
+</script>
+
+</body></html>

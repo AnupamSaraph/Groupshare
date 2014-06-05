@@ -1,18 +1,18 @@
 	<script>
 function opendesign(no){
 
-	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'orginfo/'+no  , 'Organization Detail', 'width=550px,height=450px,center=1,resize=0,scrolling=1')
+	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'orginfo/'+no  , 'Organization Detail', 'width=700px,height=450px,center=1,resize=0,scrolling=1')
 
 } 
 
 function emp_dept(no){
 
-	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'dept_employee/'+no  , 'Employee Detail', 'width=550px,height=450px,center=1,resize=0,scrolling=1')
+	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'dept_employee/'+no  , 'Employee Detail', 'width=700px,height=450px,center=1,resize=0,scrolling=1')
 
 } 
 function opendepthis(no){
 
-	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'dept_history/'+no  , 'Department History', 'width=550px,height=450px,center=1,resize=0,scrolling=1')
+	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'dept_history/'+no  , 'Department History', 'width=700px,height=450px,center=1,resize=0,scrolling=1')
 
 } 
 </script>
@@ -23,9 +23,9 @@ function opendepthis(no){
 	font-size:10px;
 }
 </style>
-<table border="1" text-color="#ffffff" bgcolor="#666666" id="abc">
+<table border="1" text-color="#ffffff" bgcolor="#666666" id="abc" width=100%>
 <tr>
-	<td>Department ID</td><td> Department Name</td><td>Address</td><td>Contact No</td><td>Organization ID</td><td>Employee</td><td>Modify</td><td>History</td>
+	<td>Department ID</td><td> Department Name</td><td>Address</td><td>Contact No</td><td>Organization</td><td>Employee</td>{% if user.username %}<td>Modify</td>{% endif %}<td>History</td>
 </tr>
 {% for person in details %}
 <tr>
@@ -33,9 +33,9 @@ function opendepthis(no){
 <td class="a">{{ person.Name }}</td>
 <td class="b">{{ person.Address }}</td>
 <td class="a">{{ person.Contact_No }}</td>
-<td class="b"><a href="#" onClick="opendesign({{ person.Organization_ID }}); return false">{{ person.Organization_ID }}</a></td>
-<td class="b"><a href="#" onClick="emp_dept({{ person.ID }}); return false">Show</a></td>
-<td class="b"><a href="editDept/{{ person.ID }}"> Edit</a></td>
+<td class="b"><a href="#" onClick="opendesign({{ person.Organization_id }}); return false">{{ person.Organization }}</a></td>
+<td class="b"><a href="#" onClick="emp_dept({{ person.ID }}); return false">Show</a></td>{% if user.username %}
+<td class="b"><a href="editDept/{{ person.ID }}"> Edit</a></td>{% endif %}
 <td class="b"><a href="#" onClick="opendepthis({{ person.ID }}); return false">Show</a></td>
 </tr>
 {% endfor %}
