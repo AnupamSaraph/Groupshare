@@ -4,7 +4,12 @@
 	color:white;
 	width:100%;	
 }
+p{
+color:red;
+}
 </style>
+{% if history %}
+<p>Officers who were in charge of this designation were:</p>
 <table border="1" bgcolor="#666666" id="abc">
 <tr>
 	<td>SSNNO</td><td>Name</td><td>Email ID</td><td>Office Phone No</td><td>From</td><td>To</td>
@@ -21,5 +26,8 @@
 {% endfor %}
 
 </table>
-<a href="#" onClick="parent.emailwindow.hide()"> close</a>
+{% else %}
+<p>No History Information found</p>
+{% endif %}
+
 

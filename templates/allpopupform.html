@@ -1,0 +1,35 @@
+<center><h1>{{ content_title }}</h1></center>
+				
+			
+				{% if form %}
+				
+				<form action={{ action_url }} method="POST">{% csrf_token %}	
+				<table border="1" bgcolor=" #87b6da" align="center" width=100%>
+				{{ form.as_table }}
+				</table>
+				<center><input type ="submit" value="Submit"/></center>	
+				{% endif %}
+				
+				{% if form1 %}
+				
+				<form action={{ action_url }}  enctype={{ enctype }} method="POST">{% csrf_token %}	
+				<table border="1" bgcolor=" #87b6da" align="center" width=100%>
+				{{ form1.as_table }}
+				</table>
+				<center><input type ="submit" value="Submit"/></center>	
+				{% endif %}
+				{% if search %} {% include "./search.html" %} {% endif %}
+				{% if allsearch %} {% include "./allsearch.html" %} {% endif %}
+			
+				{% if empcontent %} {{ empcontent }} {% endif %}
+				
+				{% if history %} {{ history }}{% endif %}
+				{% if content %} {{ content }}{% endif %}
+
+
+{% if success %}
+	<script type="text/javascript">
+        window.close();
+        window.opener.location.reload();
+</script>
+{% endif %}

@@ -3,9 +3,10 @@
 {
 	color:white;
 	font-size:10px;
+	width:100%;
 }
 </style>
-<table border="1" text-color="#ffffff" bgcolor="#666666" id="abc">
+<table border="1" text-color="#ffffff" bgcolor="#666666" id="abc" >
 <tr>
 	<td>Organization ID</td><td>Organization Name</td><td>Address</td><td>Contact No</td><td>Mission</td><td>Web URL</td><td>Modified By</td><td>Modified On</td>
 	
@@ -25,4 +26,3 @@
 
 </table>	
 
-<a href="#" onClick="parent.emailwindow.hide()"> close</a>

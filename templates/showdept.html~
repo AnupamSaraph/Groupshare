@@ -20,4 +20,4 @@
 	<td>Contact No</td><td class="a">{{ details.Contact_No }}</td>
 </tr>
 </table>	
-<a href="#" onClick="parent.emailwindow.hide()"> close</a>
+

@@ -5,6 +5,7 @@
 	width:100%;	
 }
 </style>
+{% if history %}
 <table border="1" bgcolor="#666666" id="abc">
 <tr>
 	<td>SSNNO</td><td>Name</td><td>Email ID</td><td>Fax No</td><td>Office Phone</td><td>Home Phone</td><td>Designation</td><td>Address</td><td>From</td><td>To</td><td>Modified By</td>
@@ -26,5 +27,8 @@
 {% endfor %}
 
 </table>
-<a href="#" onClick="parent.emailwindow.hide()"> close</a>
+<!--<a href="#" onClick="parent.emailwindow.hide()"> close</a>-->
+{% else %}
+<p>No history information is recorded</p>
+{% endif %}
 

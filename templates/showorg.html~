@@ -26,4 +26,3 @@
 	<td>Website URL</td><td class="a">{{ details.Web_Url }}</td>
 </tr>
 </table>	
-<a href="#" onClick="parent.emailwindow.hide()"> close</a>

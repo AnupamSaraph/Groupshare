@@ -5,7 +5,7 @@
 		color:white;
 	}
 </style>
-
+{% if details %}
 <table border="1" text-color="#ffffff" bgcolor="#666666" id="abc" width=100%>
 <tr>
 	<td>Act No</td><td>Act Name</td><td>Year</td><td>Link</td><td>Modified By</td><td>Modified On</td>
@@ -23,4 +23,7 @@
 
 </table>	
 <br/>
-<a href="#" onClick="parent.emailwindow.hide()"> close</a>
+{% else %}
+<!--<a href="#" onClick="parent.emailwindow.hide()"> close</a> -->
+<p>No History information found </p>
+{% endif %}

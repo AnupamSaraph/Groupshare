@@ -1,0 +1,33 @@
+<style>
+#abc
+	{
+		font-size:10px;
+		color:white;
+	}
+</style>
+{% if details %}
+<table border="1" text-color="#ffffff" bgcolor="#666666" id="abc" width=100%>
+<tr>
+	<td>No</td><td class="a">{{ person.No }}</td>
+</tr><tr>
+<td>Text</td><td class="a">{{ person.Text }}</td>
+</tr><tr>
+<td>Section</td><td class="a">{{ person.Section }}</td>
+</tr><tr>
+<td>Chapter </td><td class="a">{{ person.Chapter }}</td>
+</tr><tr>
+<td>Act</td><td class="a">{{ person.Act }}</td>
+</tr><tr>
+<td>Order</td><td class="a">{{ person.Order }}</td>
+</tr><tr>
+<td>Modified By</td><td class="a">{{ person.Modified_By }}</td>
+</tr><tr>
+<td>Modified On</td><td class="a">{{ person.Modified_On }}</td>
+</tr>
+</table>	
+{% else %}
+<br/>
+<!--<a href="#" onClick="parent.emailwindow.hide()"> close</a>-->
+<p>No Information found</p>
+{% endif %}
+

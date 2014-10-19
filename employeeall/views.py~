@@ -1,4 +1,5 @@
 from django.views.decorators.csrf import csrf_exempt
+from django.core import serializers
 from io import BytesIO
 from reportlab.pdfgen import canvas
 from django.utils import timezone
@@ -14,7 +15,8 @@ ActHistory,ChapterHistory,SectionHistory
 from django.template import RequestContext,Context
 from django.template.loader import get_template
 from django.contrib.auth.models import User
-
+from django.forms.models import model_to_dict
+import json
 # Add Employee begins here
 def contact(request):
 		username = None;
@@ -31,14 +33,14 @@ def contact(request):
 					cleandata=form.cleaned_data;
 					obj=Employeeall(SSNNO=cleandata['SSNNO'],Title=cleandata['Title'],Name=cleandata['Name'],Email_ID=cleandata['Email_ID'],Fax_No=cleandata['Fax_No'],Home_Phone_No=cleandata['Home_Phone_No'],Office_Phone_No=cleandata['Office_Phone_No'],	Designation=cleandata['Designation'],Address_Line=cleandata['Address_Line'],Order=cleandata['Order'],Date_Added="",Added_By=user,Department=cleandata['Department']);
 					obj.save();	
-		            		return render(request,'home1.html',{'content_title':"Employee Record Added Successfully","emp":True} );
+		            		return render(request,'allpopupform.html',{'content_title':"Employee Record Added Successfully","success":True} );
 				else:
 					
-		 	       		return render(request,'home1.html',{'content_title':"Invalid or Insufficient data Try again",'form':form,'action_url':'/addemployee/',"emp":True} );
+		 	       		return render(request,'allpopupform.html',{'content_title':"Invalid or Insufficient data Try again",'form':form,'action_url':'/addemployee/',"emp":True} );
 
 			else:
 					
-		 	       	return render(request,'home1.html',{'content_title':"Enter Employee's Data",'form':form,'action_url':'/addemployee/',"emp":True} );
+		 	       	return render(request,'allpopupform.html',{'content_title':"Enter Employee's Data",'form':form,'action_url':'/addemployee/',"emp":True} );
 		else:
 			return HttpResponseRedirect('/accounts/login/');
 
@@ -66,14 +68,14 @@ def addorganization(request):
 					cleandata=form.cleaned_data;
 					obj=Organization(Name=cleandata['Name'],Address=cleandata['Address'],Contact_No=cleandata['Contact_No'],Mission=cleandata['Mission'],Web_Url=cleandata['Web_Url']);
 					obj.save();	
-		            		return render(request,'home1.html',{'content_title':" Organization Added Successfully"} );
+		            		return render(request,'allpopupform.html',{'content_title':" Organization Added Successfully", 'success':True} );
 				else:
 					
-		 	       		return render(request,'home1.html',{'content_title':"Invalid or Insufficient data Try again",'form':form,'action_url':'/addorganization/'} );
+		 	       		return render(request,'allpopupform.html',{'content_title':"Invalid or Insufficient data Try again",'form':form,'action_url':'/addorganization/'} );
 
 			else:
 					
-		 	       	return render(request,'home1.html',{'content_title':"Enter Organization's Data",'form':form,'action_url':'/addorganization/'} );
+		 	       	return render(request,'allpopupform.html',{'content_title':"Enter Organization's Data",'form':form,'action_url':'/addorganization/'} );
 		else:
 			return HttpResponseRedirect('/accounts/login/');
 
@@ -116,7 +118,7 @@ def editOrg(request, ssn):
 						j.save();
 						obj=Organizationhistory(Org_ID=old.ID,Name=old.Name,Address=old.Address,Contact_No=old.Contact_No,Mission=old.Mission,Web_Url=old.Web_Url,Modified_By=user,Modified_On="");
 						obj.save();	
-						return render(request,'home1.html',{'content_title':'Updated Successfully'})
+						return render(request,'allpopupform.html',{'content_title':'Updated Successfully','success':True})
 				else:
 					try:	
 						ins=Organization.objects.get(ID__exact=ssn)
@@ -124,7 +126,7 @@ def editOrg(request, ssn):
 					except Organization.DoesNotExist:
 						ins=None;
 					
-				return render(request,'home1.html',{'content_title':'Edit organization','form':form,'action_url':'editOrg/%s'%(ssn)})
+				return render(request,'allpopupform.html',{'content_title':'Edit organization','form':form,'action_url':'editOrg/%s'%(ssn)})
 
 
 
@@ -154,14 +156,14 @@ def addDepartment(request):
 					cleandata=form.cleaned_data;
 					obj=Department(Name=cleandata['Name'],Address=cleandata['Address'],Contact_No=cleandata['Contact_No'],Organization=cleandata['Organization']);
 					obj.save();	
-		            		return render(request,'home1.html',{'content_title':" Department Added Successfully"} );
+		            		return render(request,'allpopupform.html',{'content_title':" Department Added Successfully",'success':True} );
 				else:
 					
-		 	       		return render(request,'home1.html',{'content_title':"Invalid or Insufficient data Try again",'form':form,'action_url':'/adddepartment/'} );
+		 	       		return render(request,'allpopupform.html',{'content_title':"Invalid or Insufficient data Try again",'form':form,'action_url':'/adddepartment/'} );
 
 			else:
 					
-		 	       	return render(request,'home1.html',{'content_title':"Enter Derpartment's Data",'form':form,'action_url':'/adddepartment/'} );
+		 	       	return render(request,'allpopupform.html',{'content_title':"Enter Derpartment's Data",'form':form,'action_url':'/adddepartment/'} );
 		else:
 			return HttpResponseRedirect('/accounts/login/');
 
@@ -207,7 +209,7 @@ def editDept(request, ssn):
 						j.save();
 						obj=Departmenthistory(Dept_ID=old.ID,Name=old.Name,Address=old.Address,Contact_No=old.Contact_No,Organization=org.ID,Modified_By=user,Modified_On="");
 						obj.save();
-						return render(request,'home1.html',{'content_title':'Updated Successfully'})
+						return render(request,'allpopupform.html',{'content_title':'Updated Successfully','success':True})
 				else:
 					try:	
 						ins=Department.objects.get(ID__exact=ssn)
@@ -215,7 +217,7 @@ def editDept(request, ssn):
 					except Department.DoesNotExist:
 						ins=None;
 					
-				return render(request,'home1.html',{'content_title':'Edit organization','form':form,'action_url':'editDept/%s'%(ssn)})
+				return render(request,'allpopupform.html',{'content_title':'Edit organization','form':form,'action_url':'editDept/%s'%(ssn)})
 
 
 
@@ -257,11 +259,55 @@ def orginfo(request,ssn):
 #Department belonging to an organization begins here
 def org_dept(request,ssn):
 	
-		
+		orgqset=Organization.objects.all();
 		query=Organization.objects.get(ID__iexact=ssn);
-		qset = query.department_set.all();			
-		return render(request,"department.html", {'details':qset })
-	
+		deptqset = query.department_set.all();
+		li=[];
+		l=[];
+		for obj in deptqset: 
+		
+			li.append(obj.ID);
+		empqset = Employeeall.objects.filter(Department_id__in=li);			
+					
+		for obj1 in empqset:
+			l.append(obj1.SSNNO);
+		proqset=Project.objects.filter(Officer_In_Charge_id__in=l);			
+		l1=[];
+		for obj2 in proqset:
+			l1.append(obj2.Third_Party_id);
+		thirdqset=ThirdParty.objects.filter(Reg_No__in=l1)
+		l2=[];
+		for obj3 in empqset:
+			l2.append(obj3.Designation_id);
+		degqset=Designation.objects.filter(Designation_No__in=l2)
+
+		l3=[];
+		l4=[];
+		l5=[];
+		l6=[];
+		for obj4 in degqset:
+			l3.append(obj4.Appointment_id)
+			l4.append(obj4.Duration_id)
+			l5.append(obj4.Powers_And_Duties_id)
+			l6.append(obj4.Removal_id)
+		appqset=Appointment.objects.filter(No__in=l3)
+		durqset=Duration.objects.filter(No__in=l4)
+		padqset=PowersAndDuties.objects.filter(No__in=l4)
+		remqset=Removal.objects.filter(No__in=l6)				
+		actqset=Act.objects.all();
+    		chapqset=Chapter.objects.all();
+    		secqset=Section.objects.all();
+    
+		return render_to_response('home3.html',{ 'user': request.user ,'home':True,'org_detail':orgqset,'dept_detail':deptqset,'emp_detail':empqset,'pro_detail':proqset,"third_detail":thirdqset,
+'act_detail':actqset,'chap_detail':chapqset,'sec_detail':secqset,'deg_detail':degqset,"app_detail":appqset,"dur_detail":durqset,"pad_detail":padqset,
+'rem_detail':remqset})
+#'act_detail':actset,
+#'chap_detail':chapset,'sec_detail':secset,"third_detail":thirdset,"app_detail":appset,"dur_detail":durset,"pad_detail":padset,
+#'rem_detail':remset,'deg_detail':degset
+
+
+		#data = serializers.serialize("json", qset)
+    		#return HttpResponse(data, content_type='application/json')
 
 #Department belonging to an organization ends here
 
@@ -371,7 +417,7 @@ Designation=deg.Designation_Name,Address_Line=old.Address_Line,Added_By=old.Adde
 Comment=old.Comment);
 						
 						obj.save();
-						return render(request,'home1.html',{'content_title':'Employee Saved',"emp":True})
+						return render(request,'allpopupform.html',{'content_title':'Employee Saved',"success":True})
 				else:
 					try:	
 						ins=Employeeall.objects.get(SSNNO__exact=ssn)
@@ -379,7 +425,7 @@ Comment=old.Comment);
 					except Employeeall.DoesNotExist:
 						ins=None;
 					
-				return render(request,'home1.html',{'content_title':'Edit Employee','form1':form,'action_url':'edit/%s'%(ssn), 'enctype':"multipart/form-data",'emp':True})
+				return render(request,'allpopupform.html',{'content_title':'Edit Employee','form1':form,'action_url':'edit/%s'%(ssn), 'enctype':"multipart/form-data",'emp':True})
 #Edit employee records ends here
 
 
@@ -452,11 +498,11 @@ def emphis(request,ssn):
 	
 		query=Employeehistory.objects.filter(SSNNO__iexact=ssn);
 		qset = Employeeall.objects.all();
-		t = get_template("employee.html");
-		t2=get_template("emphistory.html")
-		content = t.render(Context({'details':qset}));
-		content2=t2.render(Context({'history':query}));	
-		return render(request,"home1.html", {'empcontent':content,'content_title':'All Employee',"emp":True})
+		#t = get_template("employee.html");
+		#t2=get_template("emphistory.html")
+		#//content = t.render(Context({'details':qset}));
+		#content2=t2.render(Context({'history':query}));	
+		return render(request,"emphistory.html",{'history':query})
 	
 
 def emp(request,ssn):
@@ -494,15 +540,15 @@ def addproject(request):
 					cleandata=form.cleaned_data;
 					obj=Project(Project_Name=cleandata['Project_Name'],Start_Date=cleandata['Start_Date'],End_Date=cleandata['End_Date'],Amt_Sanctioned=cleandata['Amt_Sanctioned'],Amt_Proposed=cleandata['Amt_Proposed'],Expenditure_Last_Year=cleandata['Expenditure_Last_Year'],No_of_Installment=cleandata['No_of_Installment'],Officer_In_Charge=cleandata['Officer_In_Charge'],Tender_Notice=cleandata['Tender_Notice'],Tender_Submitted=cleandata['Tender_Submitted'],Contract=cleandata['Contract'],Third_Party=cleandata['Third_Party'])
 					obj.save();	
-			            	return render(request,'home1.html',{'content_title':"Project Record Added Successfully"} );
+			            	return render(request,'allpopupform.html',{'content_title':"Project Record Added Successfully","success":True} );
 
 				else:
 					
-			 	       	return render(request,'home1.html',{'content_title':"Invalid or Insufficient data Try again",'form1':form,'action_url':'/addproject/','enctype':"multipart/form-data"} );
+			 	       	return render(request,'allpopupform.html',{'content_title':"Invalid or Insufficient data Try again",'form1':form,'action_url':'/addproject/','enctype':"multipart/form-data"} );
 			
 			else:
 					
-		 	       	return render(request,'home1.html',{'content_title': 'Enter the Project Detail','form1':form,'action_url':'/addproject/','enctype':"multipart/form-data"} );
+		 	       	return render(request,'allpopupform.html',{'content_title': 'Enter the Project Detail','form1':form,'action_url':'/addproject/','enctype':"multipart/form-data"} );
 		else:
 			return HttpResponseRedirect('/accounts/login/');
 
@@ -545,7 +591,7 @@ Amt_Proposed=old.Amt_Proposed,Expenditure_Last_Year=old.Expenditure_Last_Year,No
 Tender_Submitted=old.Tender_Submitted,Contract=old.Contract,Third_Party=no1,Modified_By=user,Modified_On="");
 						
 						obj.save();
-						return render(request,'home1.html',{'content_title':'Project Saved'})
+						return render(request,'allpopupform.html',{'content_title':'Project Saved','success':True})
 				else:
 					try:	
 						ins=Project.objects.get(Project_ID__exact=ssn)
@@ -553,7 +599,7 @@ Tender_Submitted=old.Tender_Submitted,Contract=old.Contract,Third_Party=no1,Modi
 					except Project.DoesNotExist:
 						ins=None;
 					
-				return render(request,'home1.html',{'content_title':'Edit Project','form1':form,'action_url':'edit_project/%s'%(ssn),'enctype':"multipart/form-data"})
+				return render(request,'allpopupform.html',{'content_title':'Edit Project','form1':form,'action_url':'edit_project/%s'%(ssn),'enctype':"multipart/form-data"})
 #Edit project records ends here
 
 
@@ -572,9 +618,9 @@ def viewproject(request,id1):
 	
 		query=Project.objects.get(Project_ID__exact=id1);
 		qu=query.comment_set.all();
-		t=get_template("viewproject.html");
-		content=t.render(Context({'person':query,'comment':qu}));
-		return render(request,"home1.html",{'content':content,'content_title':'Project Information'})
+		#t=get_template("viewproject.html");
+		#content=t.render(Context({'person':query,'comment':qu}));
+		return render(request,"viewproject.html",{'person':query,'comment':qu})
 	
 #Individual Project Ends here
 
@@ -657,14 +703,14 @@ def addcomment(request):
 					cleandata=form.cleaned_data;
 					obj=Comment(name=cleandata['name'],website=cleandata['website'],text=cleandata['text'],project=cleandata['project'],created_on="");
 					obj.save();	
-		            		return render(request,'home1.html',{'content_title':" Comment Added"} );
+		            		return render(request,'allpopupform.html',{'content_title':" Comment Added","success":True} );
 				else:
 					
-		 	       		return render(request,'home1.html',{'content_title':"Invalid or Insufficient data Try again",'form':form,'action_url':'/addcomment/'});
+		 	       		return render(request,'allpopupform.html',{'content_title':"Invalid or Insufficient data Try again",'form':form,'action_url':'/addcomment/'});
 
 			else:
 					
-		 	       	return render(request,'home1.html',{'content_title':"Add Comment",'form':form,'action_url':'/addcomment/'});
+		 	       	return render(request,'allpopupform.html',{'content_title':"Add Comment",'form':form,'action_url':'/addcomment/'});
 		else:
 			return HttpResponseRedirect('/accounts/login/');
 
@@ -688,14 +734,14 @@ def addact(request):
 					cleandata=form.cleaned_data;
 					obj=Act(No=cleandata['No'],Name=cleandata['Name'],Year=cleandata['Year'],Link=cleandata['Link']);
 					obj.save();	
-		            		return render(request,'home1.html',{'content_title':" Act Added Successfully"} );
+		            		return render(request,'allpopupform.html',{'content_title':" Act Added Successfully","success":True} );
 				else:
 					
-		 	       		return render(request,'home1.html',{'content_title':"Invalid or Insufficient data Try again",'form':form,'action_url':'/addact/'} );
+		 	       		return render(request,'allpopupform.html',{'content_title':"Invalid or Insufficient data Try again",'form':form,'action_url':'/addact/'} );
 
 			else:
 					
-		 	       	return render(request,'home1.html',{'content_title':"Enter Act's Data",'form':form,'action_url':'/addact/'} );
+		 	       	return render(request,'allpopupform.html',{'content_title':"Enter Act's Data",'form':form,'action_url':'/addact/'} );
 		else:
 			return HttpResponseRedirect('/accounts/login/');
 
@@ -733,14 +779,14 @@ def addchapter(request):
 					cleandata=form.cleaned_data;
 					obj=Chapter(Chapter_No=cleandata['Chapter_No'],Name=cleandata['Name'],Text=cleandata['Text'],Act=cleandata['Act']);
 					obj.save();	
-		            		return render(request,'home1.html',{'content_title':" Chapter Added Successfully"} );
+		            		return render(request,'allpopupform.html',{'content_title':" Chapter Added Successfully","success":True} );
 				else:
 					
-		 	       		return render(request,'home1.html',{'content_title':"Invalid or Insufficient data Try again",'form':form,'action_url':'/addchapter/'} );
+		 	       		return render(request,'allpopupform.html',{'content_title':"Invalid or Insufficient data Try again",'form':form,'action_url':'/addchapter/'} );
 
 			else:
 					
-		 	       	return render(request,'home1.html',{'content_title':"Enter Chapter's Data",'form':form,'action_url':'/addchapter/'} );
+		 	       	return render(request,'allpopupform.html',{'content_title':"Enter Chapter's Data",'form':form,'action_url':'/addchapter/'} );
 		else:
 			return HttpResponseRedirect('/accounts/login/');
 
@@ -777,14 +823,14 @@ def addsection(request):
 					cleandata=form.cleaned_data;
 					obj=Section(Section_No=cleandata['Section_No'],Name=cleandata['Name'],Text=cleandata['Text'],Chapter=cleandata['Chapter']);
 					obj.save();	
-		            		return render(request,'home1.html',{'content_title':" Section Added Successfully"} );
+		            		return render(request,'allpopupform.html',{'content_title':" Section Added Successfully","success":True} );
 				else:
 					
-		 	       		return render(request,'home1.html',{'content_title':"Invalid or Insufficient data Try again",'form':form,'action_url':'/addsection/'} );
+		 	       		return render(request,'allpopupform.html',{'content_title':"Invalid or Insufficient data Try again",'form':form,'action_url':'/addsection/'} );
 
 			else:
 					
-		 	       	return render(request,'home1.html',{'content_title':"Enter Section's Data",'form':form,'action_url':'/addsection/'} );
+		 	       	return render(request,'allpopupform.html',{'content_title':"Enter Section's Data",'form':form,'action_url':'/addsection/'} );
 		else:
 			return HttpResponseRedirect('/accounts/login/');
 
@@ -828,7 +874,7 @@ def editAct(request, ssn):
 						j.save();
 						obj=ActHistory(No=old.No,Name=old.Name,Year=old.Year,Link=old.Link,Modified_By=user,Modified_On="");
 						obj.save();	
-						return render(request,'home1.html',{'content_title':'Updated Successfully'})
+						return render(request,'allpopupform.html',{'content_title':'Updated Successfully',"success":True})
 				else:
 					try:	
 						ins=Act.objects.get(No__exact=ssn)
@@ -836,7 +882,7 @@ def editAct(request, ssn):
 					except Act.DoesNotExist:
 						ins=None;
 					
-				return render(request,'home1.html',{'content_title':'Edit Act','form':form,'action_url':'editAct/%s'%(ssn)})
+				return render(request,'allpopupform.html',{'content_title':'Edit Act','form':form,'action_url':'editAct/%s'%(ssn)})
 
 
 
@@ -866,7 +912,7 @@ def editChapter(request, ssn):
 						j.save();
 						obj=ChapterHistory(Chapter_No=old.Chapter_No,Name=old.Name,Text=old.Text,Act=no.No,Modified_By=user,Modified_On="");
 						obj.save();	
-						return render(request,'home1.html',{'content_title':'Updated Successfully'})
+						return render(request,'allpopupform.html',{'content_title':'Updated Successfully',"success":True})
 				else:
 					try:	
 						ins=Chapter.objects.get(Chapter_No__exact=ssn)
@@ -874,7 +920,7 @@ def editChapter(request, ssn):
 					except Chapter.DoesNotExist:
 						ins=None;
 					
-				return render(request,'home1.html',{'content_title':'Edit Chapter','form':form,'action_url':'editChapter/%s'%(ssn)})
+				return render(request,'allpopupform.html',{'content_title':'Edit Chapter','form':form,'action_url':'editChapter/%s'%(ssn)})
 #Edit Chapter ends here
 
 
@@ -901,7 +947,7 @@ def editSection(request, ssn):
 						j.save();
 						obj=SectionHistory(Section_No=old.Section_No,Name=old.Name,Text=old.Text,Chapter=no.Chapter_No,Modified_By=user,Modified_On="");
 						obj.save();	
-						return render(request,'home1.html',{'content_title':'Updated Successfully'})
+						return render(request,'allpopupform.html',{'content_title':'Updated Successfully',"success":True})
 				else:
 					try:	
 						ins=Section.objects.get(Section_No__exact=ssn)
@@ -909,7 +955,7 @@ def editSection(request, ssn):
 					except Section.DoesNotExist:
 						ins=None;
 					
-				return render(request,'home1.html',{'content_title':'Edit Section','form':form,'action_url':'editSection/%s'%(ssn)})
+				return render(request,'allpopupform.html',{'content_title':'Edit Section','form':form,'action_url':'editSection/%s'%(ssn)})
 #Edit Section ends here
 
 #Chapter belonging to an Act begins here
@@ -917,8 +963,20 @@ def act_chapter(request,ssn):
 
 		
 		query=Act.objects.get(No__iexact=ssn);
-		qset = query.chapter_set.all();			
-		return render(request,"chapter.html", {'details':qset })
+		chapqset=query.chapter_set.all();
+		#t= get_template("act_chapter.html");
+		#content = t.render(Context({'chap_detail':chapqset}));
+			
+		chapter = [model_to_dict(topic) for topic in chapqset];
+		chapter_list=json.dumps({'chap_detail':chapter})
+		l1=[];
+		for obj in chapqset:
+			l1.append(obj.Chapter_No)
+		secqset	=Section.objects.filter(Chapter_id__in=l1)
+		section=[model_to_dict(content) for content in secqset];
+		section_list=json.dumps({'chap_detail':chapter,'sec_detail':section},ensure_ascii=False)
+		#return render(request,"home3.html",{'chapter':True})
+		return HttpResponse(section_list);
 
 #Chapter belonging to an act ends here
 
@@ -1006,14 +1064,14 @@ def addapp(request):
 					cleandata=form.cleaned_data;
 					obj=Appointment(Text=cleandata['Text'],Section=cleandata['Section'],Chapter=cleandata['Chapter'],Act=cleandata['Act'],Order=cleandata['Order']);
 					obj.save();	
-		            		return render(request,'home1.html',{'content_title':"Appointment Record Added Successfully"} );
+		            		return render(request,'allpopupform.html',{'content_title':"Appointment Record Added Successfully","success":True} );
 				else:
 					
-		 	       		return render(request,'home1.html',{'content_title':"Invalid or Insufficient data Try again",'form1':form,'action_url':'/addapp/','enctype':"multipart/form-data"} );
+		 	       		return render(request,'allpopupform.html',{'content_title':"Invalid or Insufficient data Try again",'form1':form,'action_url':'/addapp/','enctype':"multipart/form-data"} );
 
 			else:
 					
-		 	       	return render(request,'home1.html',{'content_title':"Enter Data",'form1':form,'action_url':'/addapp/','enctype':"multipart/form-data"} );
+		 	       	return render(request,'allpopupform.html',{'content_title':"Enter Data",'form1':form,'action_url':'/addapp/','enctype':"multipart/form-data"} );
 		else:
 			return HttpResponseRedirect('/accounts/login/');
 
@@ -1060,7 +1118,7 @@ def edit_app(request, ssn):
 						j.save();
 						obj=AppointmentHistory(No=old.No,Text=old.Text,Section=no1.Section_No,Chapter=no2.Chapter_No,Act=no3.No,Order=old.Order,Modified_By=user,Modified_On="");
 						obj.save();	
-						return render(request,'home1.html',{'content_title':'Updated Successfully'})
+						return render(request,'allpopupform.html',{'content_title':'Updated Successfully',"success":True})
 				else:
 					try:	
 						ins=Appointment.objects.get(No__exact=ssn)
@@ -1068,7 +1126,7 @@ def edit_app(request, ssn):
 					except Appointment.DoesNotExist:
 						ins=None;
 					
-				return render(request,'home1.html',{'content_title':'Edit Appointment','form1':form,'action_url':'editapp/%s'%(ssn),'enctype':"multipart/form-data"})
+				return render(request,'allpopupform.html',{'content_title':'Edit Appointment','form1':form,'action_url':'editapp/%s'%(ssn),'enctype':"multipart/form-data"})
 
 #Edit Appointment Ends Here
 
@@ -1095,14 +1153,14 @@ def add_dur(request):
 					cleandata=form.cleaned_data;
 					obj=Duration(Text=cleandata['Text'],Section=cleandata['Section'],Chapter=cleandata['Chapter'],Act=cleandata['Act'],Order=cleandata['Order']);
 					obj.save();	
-		            		return render(request,'home1.html',{'content_title':"Duration Record Added Successfully"} );
+		            		return render(request,'allpopupform.html',{'content_title':"Duration Record Added Successfully","success":True} );
 				else:
 					
-		 	       		return render(request,'home1.html',{'content_title':"Invalid or Insufficient data Try again",'form1':form,'action_url':'/adddur/','enctype':"multipart/form-data"} );
+		 	       		return render(request,'allpopupform.html',{'content_title':"Invalid or Insufficient data Try again",'form1':form,'action_url':'/adddur/','enctype':"multipart/form-data"} );
 
 			else:
 					
-		 	       	return render(request,'home1.html',{'content_title':"Enter Data",'form1':form,'action_url':'/adddur/','enctype':"multipart/form-data"} );
+		 	       	return render(request,'allpopupform.html',{'content_title':"Enter Data",'form1':form,'action_url':'/adddur/','enctype':"multipart/form-data"} );
 		else:
 			return HttpResponseRedirect('/accounts/login/');
 
@@ -1148,7 +1206,7 @@ def edit_dur(request, ssn):
 						j.save();
 						obj=DurationHistory(No=old.No,Text=old.Text,Section=no1.Section_No,Chapter=no2.Chapter_No,Act=no3.No,Order=old.Order,Modified_By=user,Modified_On="");
 						obj.save();	
-						return render(request,'home1.html',{'content_title':'Updated Successfully'})
+						return render(request,'allpopupform.html',{'content_title':'Updated Successfully',"success":True})
 				else:
 					try:	
 						ins=Duration.objects.get(No__exact=ssn)
@@ -1156,7 +1214,7 @@ def edit_dur(request, ssn):
 					except Duration.DoesNotExist:
 						ins=None;
 					
-				return render(request,'home1.html',{'content_title':'Edit Duration','form1':form,'action_url':'editdur/%s'%(ssn),'enctype':"multipart/form-data"})
+				return render(request,'allpopupform.html',{'content_title':'Edit Duration','form1':form,'action_url':'editdur/%s'%(ssn),'enctype':"multipart/form-data"})
 
 #Edit Dur Ends Here
 #Show duration history begins here
@@ -1181,14 +1239,14 @@ def add_pad(request):
 					cleandata=form.cleaned_data;
 					obj=PowersAndDuties(Text=cleandata['Text'],Section=cleandata['Section'],Chapter=cleandata['Chapter'],Act=cleandata['Act'],Order=cleandata['Order']);
 					obj.save();	
-		            		return render(request,'home1.html',{'content_title':"Powers Record Added Successfully"} );
+		            		return render(request,'allpopupform.html',{'content_title':"Powers Record Added Successfully","success":True} );
 				else:
 					
-		 	       		return render(request,'home1.html',{'content_title':"Invalid or Insufficient data Try again",'form1':form,'action_url':'/addpad/','enctype':"multipart/form-data"} );
+		 	       		return render(request,'allpopupform.html',{'content_title':"Invalid or Insufficient data Try again",'form1':form,'action_url':'/addpad/','enctype':"multipart/form-data"} );
 
 			else:
 					
-		 	       	return render(request,'home1.html',{'content_title':"Enter Data",'form1':form,'action_url':'/addpad/','enctype':"multipart/form-data"} );
+		 	       	return render(request,'allpopupform.html',{'content_title':"Enter Data",'form1':form,'action_url':'/addpad/','enctype':"multipart/form-data"} );
 		else:
 			return HttpResponseRedirect('/accounts/login/');
 
@@ -1234,7 +1292,7 @@ def edit_pad(request, ssn):
 						j.save();
 						obj=PowersAndDutiesHistory(No=old.No,Text=old.Text,Section=no1.Section_No,Chapter=no2.Chapter_No,Act=no3.No,Order=old.Order,Modified_By=user,Modified_On="");
 						obj.save();	
-						return render(request,'home1.html',{'content_title':'Updated Successfully'})
+						return render(request,'allpopupform.html',{'content_title':'Updated Successfully',"success":True})
 				else:
 					try:	
 						ins=PowersAndDuties.objects.get(No__exact=ssn)
@@ -1242,7 +1300,7 @@ def edit_pad(request, ssn):
 					except PowersAndDuties.DoesNotExist:
 						ins=None;
 					
-				return render(request,'home1.html',{'content_title':'Edit Powers and duties ','form1':form,'action_url':'editpad/%s'%(ssn),'enctype':"multipart/form-data"})
+				return render(request,'allpopupform.html',{'content_title':'Edit Powers and duties ','form1':form,'action_url':'editpad/%s'%(ssn),'enctype':"multipart/form-data"})
 
 #Edit PAD Ends Here
 
@@ -1270,14 +1328,14 @@ def add_rem(request):
 					cleandata=form.cleaned_data;
 					obj=Removal(Text=cleandata['Text'],Section=cleandata['Section'],Chapter=cleandata['Chapter'],Act=cleandata['Act'],Order=cleandata['Order']);
 					obj.save();	
-		            		return render(request,'home1.html',{'content_title':"Removal Record Added Successfully"} );
+		            		return render(request,'allpopupform.html',{'content_title':"Removal Record Added Successfully","success":True} );
 				else:
 					
-		 	       		return render(request,'home1.html',{'content_title':"Invalid or Insufficient data Try again",'form1':form,'action_url':'/addrem/','enctype':"multipart/form-data"} );
+		 	       		return render(request,'allpopupform.html',{'content_title':"Invalid or Insufficient data Try again",'form1':form,'action_url':'/addrem/','enctype':"multipart/form-data"} );
 
 			else:
 					
-		 	       	return render(request,'home1.html',{'content_title':"Enter Data",'form1':form,'action_url':'/addrem/','enctype':"multipart/form-data"} );
+		 	       	return render(request,'allpopupform.html',{'content_title':"Enter Data",'form1':form,'action_url':'/addrem/','enctype':"multipart/form-data"} );
 		else:
 			return HttpResponseRedirect('/accounts/login/');
 
@@ -1323,7 +1381,7 @@ def edit_rem(request, ssn):
 						j.save();
 						obj=RemovalHistory(No=old.No,Text=old.Text,Section=no1.Section_No,Chapter=no2.Chapter_No,Act=no3.No,Order=old.Order,Modified_By=user,Modified_On="");
 						obj.save();	
-						return render(request,'home1.html',{'content_title':'Updated Successfully'})
+						return render(request,'allpopupform.html',{'content_title':'Updated Successfully',"success":True})
 				else:
 					try:	
 						ins=Removal.objects.get(No__exact=ssn)
@@ -1331,7 +1389,7 @@ def edit_rem(request, ssn):
 					except Removal.DoesNotExist:
 						ins=None;
 					
-				return render(request,'home1.html',{'content_title':'Edit Removal ','form1':form,'action_url':'editrem/%s'%(ssn),'enctype':"multipart/form-data"})
+				return render(request,'allpopupform.html',{'content_title':'Edit Removal ','form1':form,'action_url':'editrem/%s'%(ssn),'enctype':"multipart/form-data"})
 
 #Edit Removal Ends Here
 
@@ -1358,14 +1416,14 @@ def add_deg(request):
 					cleandata=form.cleaned_data;
 					obj=Designation(Designation_Name=cleandata['Designation_Name'],Appointment=cleandata['Appointment'],Duration=cleandata['Duration'],Powers_And_Duties=cleandata['Powers_And_Duties'],Removal=cleandata['Removal'],Order=cleandata['Order']);
 					obj.save();	
-		            		return render(request,'home1.html',{'content_title':"Designation Added Successfully"} );
+		            		return render(request,'allpopupform.html',{'content_title':"Designation Added Successfully","success":True} );
 				else:
 					
-		 	       		return render(request,'home1.html',{'content_title':"Invalid or Insufficient data Try again",'form1':form,'action_url':'/add_desig/','enctype':"multipart/form-data"} );
+		 	       		return render(request,'allpopupform.html',{'content_title':"Invalid or Insufficient data Try again",'form1':form,'action_url':'/add_desig/','enctype':"multipart/form-data"} );
 
 			else:
 					
-		 	       	return render(request,'home1.html',{'content_title':"Enter Data",'form1':form,'action_url':'/add_desig/','enctype':"multipart/form-data"} );
+		 	       	return render(request,'allpopupform.html',{'content_title':"Enter Data",'form1':form,'action_url':'/add_desig/','enctype':"multipart/form-data"} );
 		else:
 			return HttpResponseRedirect('/accounts/login/');
 
@@ -1413,7 +1471,7 @@ def edit_desig(request, ssn):
 						j.save();
 						obj=DesignationHistory(Designation_No=old.Designation_No,Designation_Name=old.Designation_Name,Appointment=no1.No,Duration=no2.No,Powers_And_Duties=no3.No,Removal=no4.No,Order=old.Order,Modified_By=user,Modified_On="");
 						obj.save();	
-						return render(request,'home1.html',{'content_title':'Updated Successfully'})
+						return render(request,'allpopupform.html',{'content_title':'Updated Successfully',"success":True})
 				else:
 					try:	
 						ins=Designation.objects.get(Designation_No__exact=ssn)
@@ -1421,7 +1479,7 @@ def edit_desig(request, ssn):
 					except Designation.DoesNotExist:
 						ins=None;
 					
-				return render(request,'home1.html',{'content_title':'Edit Designation ','form1':form,'action_url':'editdesig/%s'%(ssn),'enctype':"multipart/form-data"})
+				return render(request,'allpopupform.html',{'content_title':'Edit Designation ','form1':form,'action_url':'editdesig/%s'%(ssn),'enctype':"multipart/form-data"})
 
 #Edit Designation Ends Here
 #Show Designation history begins here
@@ -1445,14 +1503,14 @@ def add_third(request):
 					cleandata=form.cleaned_data;
 					obj=ThirdParty(Reg_No=cleandata['Reg_No'],Name=cleandata['Name'],Address=cleandata['Address'],Established_Year=cleandata['Established_Year'],Kind_Of_Company=cleandata['Kind_Of_Company'],Director_Name=cleandata['Director_Name'],Din_No=cleandata['Din_No']);
 					obj.save();	
-		            		return render(request,'home1.html',{'content_title':" Third Party Added Successfully"} );
+		            		return render(request,'allpopupform.html',{'content_title':" Third Party Added Successfully","success":True} );
 				else:
 					
-		 	       		return render(request,'home1.html',{'content_title':"Invalid or Insufficient data Try again",'form':form,'action_url':'/addthirdparty/'} );
+		 	       		return render(request,'allpopupform.html',{'content_title':"Invalid or Insufficient data Try again",'form':form,'action_url':'/addthirdparty/'} );
 
 			else:
 					
-		 	       	return render(request,'home1.html',{'content_title':"Enter ThirdParty's Data",'form':form,'action_url':'/addthirdparty/'} );
+		 	       	return render(request,'allpopupform.html',{'content_title':"Enter ThirdParty's Data",'form':form,'action_url':'/addthirdparty/'} );
 		else:
 			return HttpResponseRedirect('/accounts/login/');
 
@@ -1496,7 +1554,7 @@ def edit_party(request, ssn):
 						j.save();
 						obj=ThirdPartyHistory(Reg_No=old.Reg_No,Name=old.Name,Address=old.Address,Established_Year=old.Established_Year,Kind_Of_Company=old.Kind_Of_Company,Director_Name=old.Director_Name,Din_No=old.Din_No,Modified_By=user,Modified_On="");
 						obj.save();	
-						return render(request,'home1.html',{'content_title':'Updated Successfully'})
+						return render(request,'allpopupform.html',{'content_title':'Updated Successfully',"success":True})
 				else:
 					try:	
 						ins=ThirdParty.objects.get(Reg_No__exact=ssn)
@@ -1504,7 +1562,7 @@ def edit_party(request, ssn):
 					except ThirdParty.DoesNotExist:
 						ins=None;
 					
-				return render(request,'home1.html',{'content_title':'Edit Third Party','form':form,'action_url':'editparty/%s'%(ssn)})
+				return render(request,'allpopupform.html',{'content_title':'Edit Third Party','form':form,'action_url':'editparty/%s'%(ssn)})
 
 
 
@@ -1718,7 +1776,7 @@ def allsearch(request):
 								else:
 									filter|=Q()		
 							for n in name:
-								q3 |= Q(Project_Name__iexact=n) |Q(Amt_Proposed__iexact=n)| Q(filter);
+								q3 |= Q(Project_Name__icontains=n) |Q(Amt_Proposed__iexact=n)| Q(filter);
 								qset2=Project.objects.filter(q3);
 
 						

@@ -6,7 +6,7 @@
 	
 	}
 </style>
-
+{% if details %}
 <table border="1" text-color="#ffffff" bgcolor="#666666" id="abc" width=100%>
 <tr>
 	<td>Section No</td><td>Name</td><td>Text</td><td>Chapter</td><td>Modified By</td><td>Modified On</td>
@@ -23,5 +23,8 @@
 {% endfor %}
 
 </table>	
+{% else %}
 <br/>
-<a href="#" onClick="parent.emailwindow.hide()"> close</a>
+<!--<a href="#" onClick="parent.emailwindow.hide()"> close</a>-->
+<p>No History Information Found</p>
+{% endif %}

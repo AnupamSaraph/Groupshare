@@ -1,0 +1,9 @@
+{% if chap_detail %}
+{% for emp in  chap_detail %}
+<h4>{{ emp.Name }}</a> <a href="#" onClick="openCenteredWindow('chapter_history/{{ emp.Chapter_No }}'); return false">[View History]</a>
+{% if user.username %}<a href="#" onClick="openCenteredWindow('editChapter/{{ emp.Chapter_No }}'); return false">[Edit]</a>{% endif %}</h4>
+<p>
+The Chapter No is {{emp.Chapter_No }} and it is about {{emp.Text }} and it belongs to {{emp.Act}}
+</p>
+{% endfor %}
+{% endif %}

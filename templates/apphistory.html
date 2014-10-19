@@ -1,16 +1,3 @@
-<script>
-function openchapter(no){
-
-	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'showchapter/'+no  , 'Chapter Detail', 'width=700px,height=450px,center=1,resize=0,scrolling=1')
-
-} 
-function openhistory(no){
-
-	emailwindow= dhtmlmodal.open('EmailBox', 'iframe', 'app_history/'+no  , 'History Detail', 'width=700px,height=450px,center=1,resize=0,scrolling=1')
-
-} 
-
-</script>
 
 <style>
 #abc
@@ -19,7 +6,7 @@ function openhistory(no){
 		color:white;
 	}
 </style>
-
+{% if details %}
 <table border="1" text-color="#ffffff" bgcolor="#666666" id="abc" width=100%>
 <tr>
 	<td>No</td><td>Text</td><td>Section</td><td>Chapter </td><td>Act</td><td>Order</td><td>Modified By</td><td>Modified On</td>
@@ -38,5 +25,8 @@ function openhistory(no){
 {% endfor %}
 
 </table>	
+{% else %}
 <br/>
-<a href="#" onClick="parent.emailwindow.hide()"> close</a>
+<!--<a href="#" onClick="parent.emailwindow.hide()"> close</a>-->
+<p>No History Information Found</p>
+{% endif %}

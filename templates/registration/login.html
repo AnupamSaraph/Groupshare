@@ -1,17 +1,26 @@
-{% extends "base.html" %}
-{% block title %}Login{% endblock %}
-{% block head %}Login{% endblock %}
+<head>
+	<script type="text/javascript">
+    function CloseWindow() {
+        window.close();
+        window.opener.location.reload();
+    }
+</script>
+</head>
+<body >
 {% block content %}
+
     {% if form.errors %}
         <p>Your username and password didn't match. Please try again.</p>
-    {% endif %}
+        {% endif %}
     <form method="post" action=".">{% csrf_token %}
         <table border="0" bgcolor="grey">
             <tr><th><label for="id_username">Username:</label></th><td>{{ form.username }}</td></tr>
             <tr><th><label for="id_password">Password:</label></th><td>{{ form.password }}</td></tr>
         </table>
         <input type="submit" value="Login" />
-        <input type="hidden" name="next" value="/home" />
+        <input type="hidden" name="next" value="/accounts/login"/>
     </form>
     <!--<a href="/register">Register</a>-->
 {% endblock %}
+ <a href="#" onclick="javascript: return CloseWindow();" />Close </a>
+</body>

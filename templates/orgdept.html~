@@ -1,0 +1,7 @@
+{% if details %}
+	{% for org in details %}
+		<h4>{{org.Name }}</h4>
+		<p>It is situated in {{org.Address}}, 
+	Its Contact information is {{ org.Contact_No }} and it Belongs to <a href="#" onClick="opendesign({{ org.Organization_id }}); return false">{{ org.Organization }}</a></p> 
+	{% endfor %}
+{% endif %}
